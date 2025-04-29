@@ -275,24 +275,24 @@ const carsData = [
 const testimonialsData = [
   {
     id: 1,
-    name: "John Doe",
-    location: "New York",
-    text: "Great service and excellent cars! I highly recommend this car rental company.",
-    image: "https://via.placeholder.com/50x50",
+    name: "Ahmed Ben Ali",
+    location: "Tunis",
+    image: "images/testimonials/placeholder.svg",
+    text: "J'ai été vraiment impressionné par le niveau de service que j'ai reçu de cette société de location de voitures. Le processus était fluide et facile, et la voiture que j'ai louée était en excellent état. Le personnel était amical et serviable, et je me suis senti bien pris en charge tout au long de ma période de location. Je recommanderais certainement cette entreprise à quiconque recherche une expérience de location de voiture premium.",
   },
   {
     id: 2,
-    name: "Jane Smith",
-    location: "Los Angeles",
-    text: "I had a wonderful experience renting a car from this company. The car was clean and well-maintained.",
-    image: "https://via.placeholder.com/50x50",
+    name: "Sarra Mansouri",
+    location: "Sousse",
+    image: "images/testimonials/placeholder.svg",
+    text: "Service excellent ! La voiture a été livrée à temps et en parfait état. Le processus de location était simple, et le personnel était très professionnel. J'utiliserai certainement leurs services à nouveau pour mon prochain voyage en Tunisie.",
   },
   {
     id: 3,
-    name: "Peter Jones",
-    location: "Chicago",
-    text: "The staff was very friendly and helpful. I will definitely rent from them again.",
-    image: "https://via.placeholder.com/50x50",
+    name: "Mohamed Karim",
+    location: "Sfax",
+    image: "images/testimonials/placeholder.svg",
+    text: "J'ai loué une voiture pour un voyage en famille d'une semaine à travers la Tunisie, et je ne pourrais pas être plus satisfait du service. La voiture était confortable, économe en carburant et parfaite pour nos besoins. Les prix étaient transparents sans frais cachés. Hautement recommandé !",
   },
 ]
 

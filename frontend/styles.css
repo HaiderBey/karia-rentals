@@ -905,11 +905,6 @@ footer {
   font-weight: 700;
 }
 
-.footer-links {
-  display: flex;
-  gap: 20px;
-}
-
 .social-links {
   display: flex;
   gap: 15px;
