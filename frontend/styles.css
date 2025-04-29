@@ -385,7 +385,6 @@ header {
 /* How It Works Section */
 .how-it-works {
   padding: 80px 0;
-  background-color: var(--accent-color);
 }
 
 .steps-container {
@@ -452,6 +451,7 @@ header {
 /* Car Collection Section */
 .car-collection {
   padding: 80px 0;
+  background-color: var(--accent-color);
 }
 
 .car-filters {
@@ -672,6 +672,164 @@ header {
 .author-info p {
   font-size: 14px;
   color: var(--dark-gray);
+}
+
+/* Page Title */
+.page-title {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  padding: 100px 0 40px;
+  text-align: center;
+}
+
+.page-title h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.page-title p {
+  font-size: 18px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Car Search and Filters */
+.car-search {
+  background-color: var(--secondary-color);
+  padding: 30px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.search-box {
+  display: flex;
+  width: 100%;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid var(--light-gray);
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
+  font-size: 16px;
+}
+
+.search-box .search-btn {
+  padding: 12px 20px;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  cursor: pointer;
+}
+
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: flex-end;
+}
+
+.filter-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.filter-group select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--light-gray);
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  background-color: var(--secondary-color);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.pagination-btn {
+  padding: 10px 20px;
+  background-color: var(--secondary-color);
+  border: 1px solid var(--light-gray);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.pagination-btn:hover {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-numbers {
+  display: flex;
+  gap: 10px;
+  margin: 0 20px;
+}
+
+.page-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.page-number.active {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.page-number:hover:not(.active) {
+  background-color: var(--light-gray);
+}
+
+.no-cars {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: var(--dark-gray);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .filter-container {
+      flex-direction: column;
+  }
+  
+  .filter-group {
+      width: 100%;
+  }
+  
+  .pagination {
+      flex-direction: column;
+      gap: 15px;
+  }
 }
 
 /* App Download Section */

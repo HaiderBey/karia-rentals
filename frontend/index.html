@@ -23,7 +23,7 @@
                     </button>
                     <ul class="nav-menu">
                         <li><a href="#" class="active">Accueil</a></li>
-                        <li><a href="#cars">Voitures</a></li>
+                        <li><a href="/frontend/voitures.html">Voitures</a></li>
                         <li><a href="#how-it-works">Comment ça marche</a></li>
                         <li><a href="#services">Services</a></li>
                         <li><a href="#testimonials">Témoignages</a></li>
@@ -175,6 +175,34 @@
         </div>
     </section>
 
+     <!-- Car Collection Section -->
+     <section class="car-collection" id="cars">
+        <div class="container">
+            <div class="section-header center">
+                <h2>Notre Impressionnante Collection de Voitures</h2>
+                <p>Allant des élégantes berlines aux puissantes voitures de sport, toutes soigneusement sélectionnées pour offrir à nos clients une expérience de conduite ultime.</p>
+            </div>
+            <div class="car-filters">
+                <button class="filter-btn active" data-filter="all">Toutes les Voitures</button>
+                <button class="filter-btn" data-filter="popular">Voiture Populaire</button>
+                <button class="filter-btn" data-filter="luxury">Voiture de Luxe</button>
+                <button class="filter-btn" data-filter="family">Voiture Familiale</button>
+                <button class="filter-btn" data-filter="off-road">Voiture Tout-Terrain</button>
+            </div>
+            <div class="cars-grid" id="carsGrid">
+                <!-- Cars will be dynamically loaded here -->
+            </div>
+            <div class="center-btn">
+                <button class="btn btn-secondary" id="loadMoreCars">
+                <a href = "/frontend/voitures.html" class="view-all">
+                    Voir toutes les voitures
+                    <img src="/frontend/images/assets/arrow-right-black.png" alt="Search">
+                </a>
+                </button>
+            </div>
+        </div>
+    </section>
+
         <!-- How It Works Section -->
     <section class="how-it-works" id="how-it-works">
         <div class="container">
@@ -207,34 +235,6 @@
                 <div class="step-image">
                     <img src="images/cars/jeep-wrangler.png" alt="Jeep Wrangler">
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Car Collection Section -->
-    <section class="car-collection" id="cars">
-        <div class="container">
-            <div class="section-header center">
-                <h2>Notre Impressionnante Collection de Voitures</h2>
-                <p>Allant des élégantes berlines aux puissantes voitures de sport, toutes soigneusement sélectionnées pour offrir à nos clients une expérience de conduite ultime.</p>
-            </div>
-            <div class="car-filters">
-                <button class="filter-btn active" data-filter="all">Toutes les Voitures</button>
-                <button class="filter-btn" data-filter="popular">Voiture Populaire</button>
-                <button class="filter-btn" data-filter="luxury">Voiture de Luxe</button>
-                <button class="filter-btn" data-filter="family">Voiture Familiale</button>
-                <button class="filter-btn" data-filter="off-road">Voiture Tout-Terrain</button>
-            </div>
-            <div class="cars-grid" id="carsGrid">
-                <!-- Cars will be dynamically loaded here -->
-            </div>
-            <div class="center-btn">
-                <button class="btn btn-secondary" id="loadMoreCars">
-                <a href="#" class="view-all">
-                    Voir toutes les voitures
-                    <img src="/frontend/images/assets/arrow-right-black.png" alt="Search">
-                </a>
-                </button>
             </div>
         </div>
     </section>
