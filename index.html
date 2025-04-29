@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karia - Location de Voitures en Tunisie</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>KARIA</h1>
+                </div>
+                <nav>
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <ul class="nav-menu">
+                        <li><a href="#" class="active">Accueil</a></li>
+                        <li><a href="#cars">Voitures</a></li>
+                        <li><a href="#how-it-works">Comment ça marche</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#testimonials">Témoignages</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons">
+                    <button class="btn btn-login">Connexion / Inscription</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Découvrez le monde sur roues avec notre service de location de voitures</h1>
+                <p>Profitez du meilleur service de location de voitures en Tunisie</p>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="images/placeholder.svg" alt="Voiture de luxe">
+        </div>
+        <div class="search-container">
+            <div class="search-form">
+                <div class="form-group">
+                    <label>Lieu de prise en charge</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" placeholder="Rechercher un lieu">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Date de prise en charge</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-calendar"></i>
+                        <input type="text" placeholder="JJ/MM/AAAA" id="pickupDate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Lieu de retour</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" placeholder="Rechercher un lieu">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Date de retour</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-calendar"></i>
+                        <input type="text" placeholder="JJ/MM/AAAA" id="dropoffDate">
+                    </div>
+                </div>
+                <button class="btn btn-primary">Trouver un Véhicule <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brands Section -->
+    <section class="brands" id="brands">
+        <div class="container">
+            <div class="section-header">
+                <h2>Louer par Marques</h2>
+                <a href="#" class="view-all">Voir tout <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="brands-grid">
+                <div class="brand-card" data-brand="peugeot">
+                    <img src="images/brands/peugeot.svg" alt="Peugeot">
+                    <p>Peugeot</p>
+                </div>
+                <div class="brand-card" data-brand="renault">
+                    <img src="images/brands/renault.svg" alt="Renault">
+                    <p>Renault</p>
+                </div>
+                <div class="brand-card" data-brand="citroen">
+                    <img src="images/brands/citroen.svg" alt="Citroen">
+                    <p>Citroen</p>
+                </div>
+                <div class="brand-card" data-brand="volkswagen">
+                    <img src="images/brands/volkswagen.svg" alt="Volkswagen">
+                    <p>Volkswagen</p>
+                </div>
+                <div class="brand-card" data-brand="fiat">
+                    <img src="images/brands/fiat.svg" alt="Fiat">
+                    <p>Fiat</p>
+                </div>
+                <div class="brand-card" data-brand="dacia">
+                    <img src="images/brands/dacia.svg" alt="Dacia">
+                    <p>Dacia</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Car Types Section -->
+    <section class="car-types" id="car-types">
+        <div class="container">
+            <div class="section-header">
+                <h2>Louer par type de carrosserie</h2>
+                <a href="#" class="view-all">Voir tout <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="car-types-grid">
+                <div class="car-type-card" data-type="suv">
+                    <div class="car-type-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <p>SUV</p>
+                </div>
+                <div class="car-type-card" data-type="sedan">
+                    <div class="car-type-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <p>Sedan</p>
+                </div>
+                <div class="car-type-card" data-type="compact">
+                    <div class="car-type-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <p>Compact</p>
+                </div>
+                <div class="car-type-card" data-type="wagon">
+                    <div class="car-type-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <p>Wagon</p>
+                </div>
+                <div class="car-type-card" data-type="convertible">
+                    <div class="car-type-icon">
+                        <i class="fas fa-car-side"></i>
+                    </div>
+                    <p>Convertible</p>
+                </div>
+                <div class="car-type-card" data-type="crossover">
+                    <div class="car-type-icon">
+                        <i class="fas fa-car-alt"></i>
+                    </div>
+                    <p>Crossover</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-header center">
+                <h2>Comment ça marche</h2>
+                <p>Louer une voiture de luxe n'a jamais été aussi facile. Notre processus simplifié vous permet de réserver et de confirmer votre véhicule de choix en ligne</p>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>Parcourir et sélectionner</h3>
+                        <p>Choisissez parmi notre large gamme de voitures premium, sélectionnez les dates et lieux de prise en charge et de retour qui vous conviennent le mieux.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>Réserver et confirmer</h3>
+                        <p>Réservez votre voiture désirée en quelques clics et recevez une confirmation instantanée par e-mail ou SMS.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>Profitez de votre trajet</h3>
+                        <p>Récupérez votre voiture à l'endroit désigné et profitez de votre expérience de conduite premium avec notre service de haute qualité.</p>
+                    </div>
+                </div>
+                <div class="step-image">
+                    <img src="images/placeholder.svg" alt="Jeep Wrangler">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Car Collection Section -->
+    <section class="car-collection" id="cars">
+        <div class="container">
+            <div class="section-header center">
+                <h2>Notre Impressionnante Collection de Voitures</h2>
+                <p>Allant des élégantes berlines aux puissantes voitures de sport, toutes soigneusement sélectionnées pour offrir à nos clients une expérience de conduite ultime.</p>
+            </div>
+            <div class="car-filters">
+                <button class="filter-btn active" data-filter="all">Toutes les Voitures</button>
+                <button class="filter-btn" data-filter="popular">Voiture Populaire</button>
+                <button class="filter-btn" data-filter="luxury">Voiture de Luxe</button>
+                <button class="filter-btn" data-filter="family">Voiture Familiale</button>
+                <button class="filter-btn" data-filter="off-road">Voiture Tout-Terrain</button>
+            </div>
+            <div class="cars-grid" id="carsGrid">
+                <!-- Cars will be dynamically loaded here -->
+            </div>
+            <div class="center-btn">
+                <button class="btn btn-secondary" id="loadMoreCars">Voir toutes les Voitures <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header center">
+                <h2>Nos Services & Avantages</h2>
+                <p>Pour rendre la location facile et sans tracas, nous proposons une variété de services et d'avantages. Nous vous couvrons avec une variété de véhicules et des conditions de location flexibles.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3>Choix de Qualité</h3>
+                    <p>Nous offrons une large gamme de véhicules de haute qualité parmi lesquels choisir, y compris des voitures de luxe, des SUV, des fourgonnettes et plus encore.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    <h3>Prix Abordables</h3>
+                    <p>Nos tarifs de location sont très compétitifs et abordables, permettant à nos clients de profiter de leurs voyages sans se ruiner.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h3>Réservation en Ligne Pratique</h3>
+                    <p>Avec notre système de réservation en ligne facile à utiliser, les clients peuvent rapidement et facilement réserver leur voiture de location de n'importe où, à tout moment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>Ce Que Disent Nos Clients</h2>
+                <div class="testimonial-controls">
+                    <button class="testimonial-btn prev" id="prevTestimonial"><i class="fas fa-arrow-left"></i></button>
+                    <button class="testimonial-btn next" id="nextTestimonial"><i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+            <div class="testimonials-slider" id="testimonialsSlider">
+                <!-- Testimonials will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- App Download Section -->
+    <section class="app-download">
+        <div class="container">
+            <div class="app-content">
+                <h2>Téléchargez notre application mobile ⚡</h2>
+                <p>Obtenez un accès exclusif aux locations de voitures avec notre application mobile. Téléchargez maintenant et profitez de la commodité en déplacement.</p>
+                <div class="app-buttons">
+                    <a href="#" class="app-btn">
+                        <i class="fab fa-apple"></i>
+                        <span>
+                            <small>Télécharger sur l'</small>
+                            App Store
+                        </span>
+                    </a>
+                    <a href="#" class="app-btn">
+                        <i class="fab fa-google-play"></i>
+                        <span>
+                            <small>DISPONIBLE SUR</small>
+                            Google Play
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>KARIA</h2>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Location</a>
+                    <a href="#">Partager</a>
+                    <a href="#">À propos</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Karia Location de Voitures. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
