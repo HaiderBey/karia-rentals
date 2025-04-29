@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Karia - Mon Profil</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="js/main.js"></script>
+    <style>
+        .profile-container {
+            margin: 120px auto 60px;
+            padding: 0;
+        }
+        
+        .profile-header {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 40px 0;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+        
+        .profile-header-content {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--secondary-color);
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-info h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .profile-info p {
+            opacity: 0.8;
+        }
+        
+        .profile-tabs {
+            display: flex;
+            background-color: var(--secondary-color);
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .profile-tab {
+            padding: 20px 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+        }
+        
+        .profile-tab.active {
+            border-bottom-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .profile-tab:hover {
+            background-color: var(--accent-color);
+        }
+        
+        .profile-content {
+            background-color: var(--secondary-color);
+            padding: 40px;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        /* Rentals Tab */
+        .rental-card {
+            display: flex;
+            margin-bottom: 30px;
+            background-color: var(--accent-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+        
+        .rental-image {
+            width: 200px;
+            height: 150px;
+        }
+        
+        .rental-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .rental-details {
+            flex: 1;
+            padding: 20px;
+        }
+        
+        .rental-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .rental-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .rental-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background-color: #e6f7e6;
+            color: #2e7d32;
+        }
+        
+        .status-completed {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+        
+        .status-cancelled {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .rental-info {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .rental-info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .rental-info-label {
+            font-size: 14px;
+            color: var(--dark-gray);
+        }
+        
+        .rental-info-value {
+            font-weight: 600;
+        }
+        
+        .rental-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        /* Settings Tab */
+        .settings-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .settings-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .settings-form input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+        }
+        
+        .settings-form input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .settings-form .btn {
+            margin-top: 20px;
+        }
+        
+        /* Favorites Tab */
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        @media (max-width: 992px) {
+            .favorites-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .profile-header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .profile-tab {
+                flex: 1;
+                text-align: center;
+                padding: 15px;
+            }
+            
+            .rental-card {
+                flex-direction: column;
+            }
+            
+            .rental-image {
+                width: 100%;
+            }
+            
+            .rental-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .favorites-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>KARIA</h1>
+                </div>
+                <nav>
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <ul class="nav-menu">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="voitures.html">Voitures</a></li>
+                        <li><a href="#how-it-works">Comment ça marche</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#testimonials">Témoignages</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons">
+                    <button class="btn btn-login" id="logoutBtn">Déconnexion</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile Section -->
+    <section class="profile-section">
+        <div class="container profile-container">
+            <div class="profile-header">
+                <div class="container">
+                    <div class="profile-header-content">
+                        <div class="profile-avatar">
+                            <img src="https://via.placeholder.com/120" alt="User Avatar">
+                        </div>
+                        <div class="profile-info">
+                            <h2>Jean Dupont</h2>
+                            <p>jean.dupont@example.com</p>
+                            <p>Membre depuis Janvier 2023</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="profile-tabs">
+                <div class="profile-tab active" data-tab="rentals">Mes Locations</div>
+                <div class="profile-tab" data-tab="favorites">Favoris</div>
+                <div class="profile-tab" data-tab="settings">Paramètres</div>
+            </div>
+            
+            <div class="profile-content">
+                <!-- Rentals Tab -->
+                <div class="tab-content active" id="rentals">
+                    <h3 class="section-title">Historique de Locations</h3>
+                    
+                    <div class="rental-card">
+                        <div class="rental-image">
+                            <img src="https://via.placeholder.com/200x150" alt="Car">
+                        </div>
+                        <div class="rental-details">
+                            <div class="rental-header">
+                                <h4 class="rental-title">Peugeot 208</h4>
+                                <span class="rental-status status-active">En cours</span>
+                            </div>
+                            <div class="rental-info">
+                                <div class="rental-info-item">
+                                    <span class="rental-info-label">Date de début</span>
+                                    <span class="rental-info-value">15/04/2023</span>
+                                </div>
+                                <div class="rental-info-item">
+                                    <span class="rental-info-label">Date de fin</span>
+                                    <span class="rental-info-value">20/04/2023</span>
+                                </div>
+                                <div class="rental-info-item">
+                                    <span class="rental-info-label">Lieu de prise en charge</span>
+                                    <span class="rental-info-value">Tunis Centre</span>
+                                </div>
+                                <div class="rental-info-item">
+                                    <span class="rental-info-label">Prix total</span>
+                                    <span class="rental-info-value">750 TND</span>
+                                </div>
+                            </div>
+                            <div class="rental-actions">
+                                <button class="btn btn-secondary">Voir les détails</button>
+                                <button class="btn btn-primary">Prolonger</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="rental-card">
+                        <div class="rental-image">
+                            <img src="https://via.placeholder.com/200x150" alt="Car">
+                        </div>
+                        <div class="rental-details">
+                            <div class="rental-header">
+                                <h4 class="rental-title">Renault Clio</h4>
+                                <span class="rental-status status-completed">Terminée</span>
+                            </div>
+                            <div class="rental-info">
+                                <div class="rental-info-item">
+                                    <span class="rental-info-label">Date de début</span>
+                                    <span class="rental-info-value">01/03/2023</span>
+                                </div>
+                                <div class="rental-info-item">
+                                    <span class="rental-info-label">Date de fin</span>
+                                    <span class="rental-info-value">05/03/2023</span>
+                                </div>
+                                <div class="rental-info-item">
+                                    <span class="rental-info-label">Lieu de prise en charge</span>
+                                    <span class="rental-info-value">Aéroport de Tunis</span>
+                                </div>
+                                <div class="rental-info-item">
+                                    <span class="rental-info-label">Prix total</span>
+                                    <span class="rental-info-value">500 TND</span>
+                                </div>
+                            </div>
+                            <div class="rental-actions">
+                                <button class="btn btn-secondary">Voir les détails</button>
+                                <button class="btn btn-primary">Réserver à nouveau</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Favorites Tab -->
+                <div class="tab-content" id="favorites">
+                    <h3 class="section-title">Mes Voitures Favorites</h3>
+                    
+                    <div class="favorites-grid">
+                        <div class="car-card">
+                            <div class="car-image">
+                                <img src="https://via.placeholder.com/350x200" alt="Car">
+                            </div>
+                            <div class="car-details">
+                                <h3 class="car-title">BMW X5 2022</h3>
+                                <div class="car-price">60000.00 <span>/jour</span></div>
+                                <div class="car-features">
+                                    <div class="feature">
+                                        <i class="fas fa-tachometer-alt"></i>
+                                        <span>10,000 km</span>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Automatic</span>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-user"></i>
+                                        <span>5 Personnes</span>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-gas-pump"></i>
+                                        <span>Gasoline</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary">Louer Maintenant</button>
+                            </div>
+                        </div>
+                        
+                        <div class="car-card">
+                            <div class="car-image">
+                                <img src="https://via.placeholder.com/350x200" alt="Car">
+                            </div>
+                            <div class="car-details">
+                                <h3 class="car-title">Mercedes C-Class 2023</h3>
+                                <div class="car-price">55000.00 <span>/jour</span></div>
+                                <div class="car-features">
+                                    <div class="feature">
+                                        <i class="fas fa-tachometer-alt"></i>
+                                        <span>5,000 km</span>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Automatic</span>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-user"></i>
+                                        <span>5 Personnes</span>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-gas-pump"></i>
+                                        <span>Gasoline</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary">Louer Maintenant</button>
+                            </div>
+                        </div>
+                        
+                        <div class="car-card">
+                            <div class="car-image">
+                                <img src="https://via.placeholder.com/350x200" alt="Car">
+                            </div>
+                            <div class="car-details">
+                                <h3 class="car-title">Audi A4 2022</h3>
+                                <div class="car-price">45000.00 <span>/jour</span></div>
+                                <div class="car-features">
+                                    <div class="feature">
+                                        <i class="fas fa-tachometer-alt"></i>
+                                        <span>12,000 km</span>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Automatic</span>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-user"></i>
+                                        <span>5 Personnes</span>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-gas-pump"></i>
+                                        <span>Gasoline</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary">Louer Maintenant</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Settings Tab -->
+                <div class="tab-content" id="settings">
+                    <h3 class="section-title">Paramètres du Compte</h3>
+                    
+                    <form class="settings-form" id="settingsForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="settingsFirstName">Prénom</label>
+                                <input type="text" id="settingsFirstName" name="firstName" value="Jean">
+                            </div>
+                            <div class="form-group">
+                                <label for="settingsLastName">Nom</label>
+                                <input type="text" id="settingsLastName" name="lastName" value="Dupont">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="settingsEmail">Email</label>
+                            <input type="email" id="settingsEmail" name="email" value="jean.dupont@example.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="settingsPhone">Téléphone</label>
+                            <input type="tel" id="settingsPhone" name="phone" value="+216 12 345 678">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="settingsAddress">Adresse</label>
+                            <input type="text" id="settingsAddress" name="address" value="123 Rue de Tunis">
+                        </div>
+                        
+                        <h3 class="section-title">Changer le mot de passe</h3>
+                        
+                        <div class="form-group">
+                            <label for="currentPassword">Mot de passe actuel</label>
+                            <input type="password" id="currentPassword" name="currentPassword">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="newPassword">Nouveau mot de passe</label>
+                            <input type="password" id="newPassword" name="newPassword">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirmNewPassword">Confirmer le nouveau mot de passe</label>
+                            <input type="password" id="confirmNewPassword" name="confirmNewPassword">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>KARIA</h2>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Location</a>
+                    <a href="#">Partager</a>
+                    <a href="#">À propos</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Karia Location de Voitures. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Tab switching functionality
+            const tabs = document.querySelectorAll(".profile-tab");
+            const tabContents = document.querySelectorAll(".tab-content");
+            
+            tabs.forEach(tab => {
+                tab.addEventListener("click", () => {
+                    const tabId = tab.getAttribute("data-tab");
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove("active"));
+                    tab.classList.add("active");
+                    
+                    // Show active tab content
+                    tabContents.forEach(content => {
+                        content.classList.remove("active");
+                        if (content.id === tabId) {
+                            content.classList.add("active");
+                        }
+                    });
+                });
+            });
+            
+            // Settings form submission
+            const settingsForm = document.getElementById("settingsForm");
+            if (settingsForm) {
+                settingsForm.addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    
+                    // Validate password change if attempted
+                    const currentPassword = document.getElementById("currentPassword").value;
+                    const newPassword = document.getElementById("newPassword").value;
+                    const confirmNewPassword = document.getElementById("confirmNewPassword").value;
+                    
+                    if ((newPassword || confirmNewPassword) && !currentPassword) {
+                        alert("Veuillez entrer votre mot de passe actuel");
+                        return;
+                    }
+                    
+                    if (newPassword && newPassword !== confirmNewPassword) {
+                        alert("Les nouveaux mots de passe ne correspondent pas");
+                        return;
+                    }
+                    
+                    // Here you would normally send the data to your server
+                    // For demo purposes, we'll just simulate a successful update
+                    alert("Profil mis à jour avec succès!");
+                });
+            }
+            
+            // Logout button
+            const logoutBtn = document.getElementById("logoutBtn");
+            if (logoutBtn) {
+                logoutBtn.addEventListener("click", () => {
+                    // Here you would normally handle logout on the server
+                    // For demo purposes, we'll just redirect to the home page
+                    window.location.href = "index.html";
+                });
+            }
+        });
+    </script>
+</body>
+</html>

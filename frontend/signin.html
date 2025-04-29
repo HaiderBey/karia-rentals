@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Karia - Connexion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="js/main.js"></script>
+    <style>
+        .auth-container {
+            max-width: 500px;
+            margin: 120px auto 60px;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .auth-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .auth-header p {
+            color: var(--dark-gray);
+        }
+        
+        .auth-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .auth-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .auth-form input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+        }
+        
+        .auth-form input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .auth-form .forgot-password {
+            display: block;
+            text-align: right;
+            margin-top: 10px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .auth-form .btn {
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 16px;
+        }
+        
+        .auth-footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .auth-footer p {
+            margin-bottom: 15px;
+        }
+        
+        .social-auth {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-auth-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #f5f5f5;
+            transition: var(--transition);
+        }
+        
+        .social-auth-btn:hover {
+            background-color: var(--light-gray);
+        }
+        
+        .auth-switch {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .auth-switch a {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>KARIA</h1>
+                </div>
+                <nav>
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <ul class="nav-menu">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="voitures.html">Voitures</a></li>
+                        <li><a href="#how-it-works">Comment ça marche</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#testimonials">Témoignages</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sign In Section -->
+    <section class="auth-section">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h2>Connexion</h2>
+                    <p>Bienvenue ! Veuillez vous connecter pour continuer</p>
+                </div>
+                <form class="auth-form" id="signinForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" id="password" name="password" required>
+                        <a href="#" class="forgot-password">Mot de passe oublié?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Se connecter</button>
+                </form>
+                <div class="auth-footer">
+                    <p>Ou connectez-vous avec</p>
+                    <div class="social-auth">
+                        <a href="#" class="social-auth-btn">
+                            <img src="/frontend/images/assets/google.png" alt="Google">
+                        </a>
+                        <a href="#" class="social-auth-btn">
+                            <img src="/frontend/images/assets/facebook.png" alt="Facebook">
+                        </a>
+                        <a href="#" class="social-auth-btn">
+                            <img src="/frontend/images/assets/apple.png" alt="Apple">
+                        </a>
+                    </div>
+                </div>
+                <div class="auth-switch">
+                    <p>Vous n'avez pas de compte? <a href="register.html">S'inscrire</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>KARIA</h2>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Location</a>
+                    <a href="#">Partager</a>
+                    <a href="#">À propos</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Karia Location de Voitures. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const signinForm = document.getElementById("signinForm");
+            
+            if (signinForm) {
+                signinForm.addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    
+                    const email = document.getElementById("email").value;
+                    const password = document.getElementById("password").value;
+                    
+                    // Validate form
+                    if (!email || !password) {
+                        alert("Veuillez remplir tous les champs");
+                        return;
+                    }
+                    
+                    // Here you would normally send the data to your server
+                    // For demo purposes, we'll just simulate a successful login
+                    alert("Connexion réussie!");
+                    
+                    // Redirect to profile page
+                    window.location.href = "profile.html";
+                });
+            }
+        });
+    </script>
+</body>
+</html>
