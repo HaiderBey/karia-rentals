@@ -187,15 +187,6 @@ header {
   background-color: var(--secondary-color);
 }
 
-.menu-toggle {
-  display: none;
-  background: transparent;
-  border: none;
-  color: var(--secondary-color);
-  font-size: 24px;
-  cursor: pointer;
-}
-
 /* Hero Section */
 .hero {
   position: relative;
@@ -263,7 +254,7 @@ header {
   gap: 0.625rem;
 }
 
-.form-group label {
+.search-field label {
   font-size: 16px;
   opacity: 0.8;
 }
@@ -982,40 +973,5 @@ footer {
     flex-direction: column;
     gap: 20px;
     text-align: center;
-  }
-}
-
-@media (max-width: 576px) {
-  .nav-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: var(--primary-color);
-    padding: 20px;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .nav-menu.active {
-    display: flex;
-  }
-
-  .nav-menu li {
-    margin: 10px 0;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-
-  .brands-grid,
-  .car-types-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .app-buttons {
-    flex-direction: column;
   }
 }

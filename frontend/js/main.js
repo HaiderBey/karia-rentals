@@ -1,32 +1,10 @@
+import {brandsData, carsData, typesData} from '/frontend/js/data.js';
+
 document.addEventListener("DOMContentLoaded", () => {
-  // Mobile menu toggle
-  const menuToggle = document.getElementById("menuToggle")
-  const navMenu = document.querySelector(".nav-menu")
 
-  if (menuToggle) {
-    menuToggle.addEventListener("click", () => {
-      navMenu.classList.toggle("active")
-    })
-  }
-
-  // Date picker initialization (simple version without library)
-  const dateInputs = document.querySelectorAll('input[id$="Date"]')
-  dateInputs.forEach((input) => {
-    input.addEventListener("focus", (e) => {
-      e.target.type = "date"
-    })
-    input.addEventListener("blur", (e) => {
-      if (!e.target.value) {
-        e.target.type = "text"
-      }
-    })
-  })
-
-  // Load cars
+  loadBrands()
+  loadTypes()
   loadCars()
-
-  // Load testimonials
-  loadTestimonials()
 
   // Filter buttons functionality
   const filterButtons = document.querySelectorAll(".filter-btn")
@@ -78,240 +56,32 @@ document.addEventListener("DOMContentLoaded", () => {
       loadMoreCars()
     })
   }
-
-  // Testimonial slider navigation
-  const prevTestimonialBtn = document.getElementById("prevTestimonial")
-  const nextTestimonialBtn = document.getElementById("nextTestimonial")
-
-  if (prevTestimonialBtn && nextTestimonialBtn) {
-    prevTestimonialBtn.addEventListener("click", () => {
-      navigateTestimonials("prev")
-    })
-
-    nextTestimonialBtn.addEventListener("click", () => {
-      navigateTestimonials("next")
-    })
-  }
 })
 
-// Global variables
 let currentCars = []
 let displayedCars = 6
-let currentTestimonial = 0
 
-// Sample car data (replace with your actual data source)
-const carsData = [
-  {
-    id: 1,
-    name: "Toyota Camry",
-    year: 2022,
-    price: 25000,
-    mileage: "25,000 km",
-    transmission: "Automatic",
-    seats: 5,
-    fuel: "Gasoline",
-    image: "https://images.pexels.com/photos/28688908/pexels-photo-28688908/free-photo-of-dynamic-toyota-camry-driving-on-erbil-highway.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    category: "sedan",
-    brand: "Toyota",
-    type: "family",
-  },
-  {
-    id: 2,
-    name: "Honda Civic",
-    year: 2023,
-    price: 24000,
-    mileage: "15,000 km",
-    transmission: "Automatic",
-    seats: 5,
-    fuel: "Gasoline",
-    image: "https://images.pexels.com/photos/6794821/pexels-photo-6794821.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    category: "sedan",
-    brand: "Honda",
-    type: "compact",
-  },
-  {
-    id: 3,
-    name: "Ford Mustang",
-    year: 2021,
-    price: 35000,
-    mileage: "30,000 km",
-    transmission: "Manual",
-    seats: 4,
-    fuel: "Gasoline",
-    image: "https://images.pexels.com/photos/29615587/pexels-photo-29615587/free-photo-of-sleek-white-mustang-gt-cruising-at-sunset.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    category: "sports",
-    brand: "Ford",
-    type: "sports",
-  },
-  {
-    id: 4,
-    name: "BMW X5",
-    year: 2022,
-    price: 60000,
-    mileage: "10,000 km",
-    transmission: "Automatic",
-    seats: 5,
-    fuel: "Gasoline",
-    image: "https://images.pexels.com/photos/12532745/pexels-photo-12532745.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    category: "suv",
-    brand: "BMW",
-    type: "luxury",
-  },
-  {
-    id: 5,
-    name: "Mercedes C-Class",
-    year: 2023,
-    price: 55000,
-    mileage: "5,000 km",
-    transmission: "Automatic",
-    seats: 5,
-    fuel: "Gasoline",
-    image: "https://images.pexels.com/photos/27019870/pexels-photo-27019870/free-photo-of-blue-car-parked-near-bushes.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    category: "sedan",
-    brand: "Mercedes",
-    type: "luxury",
-  },
-  {
-    id: 6,
-    name: "Audi A4",
-    year: 2022,
-    price: 45000,
-    mileage: "12,000 km",
-    transmission: "Automatic",
-    seats: 5,
-    fuel: "Gasoline",
-    image: "https://images.pexels.com/photos/30164532/pexels-photo-30164532/free-photo-of-front-view-of-red-audi-a4-in-urban-setting.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    category: "sedan",
-    brand: "Audi",
-    type: "luxury",
-  },
-  {
-    id: 7,
-    name: "Nissan Rogue",
-    year: 2023,
-    price: 28000,
-    mileage: "8,000 km",
-    transmission: "Automatic",
-    seats: 5,
-    fuel: "Gasoline",
-    image: "https://images.pexels.com/photos/11798451/pexels-photo-11798451.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    category: "suv",
-    brand: "Nissan",
-    type: "family",
-  },
-  {
-    id: 8,
-    name: "Chevrolet Silverado",
-    year: 2022,
-    price: 38000,
-    mileage: "18,000 km",
-    transmission: "Automatic",
-    seats: 6,
-    fuel: "Gasoline",
-    image: "https://images.pexels.com/photos/25526032/pexels-photo-25526032/free-photo-of-red-chevrolet-silverado-1500-in-the-driveway-of-a-forest-cottage.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    category: "truck",
-    brand: "Chevrolet",
-    type: "truck",
-  },
-  {
-    id: 9,
-    name: "GMC Sierra",
-    year: 2023,
-    price: 42000,
-    mileage: "6,000 km",
-    transmission: "Automatic",
-    seats: 6,
-    fuel: "Gasoline",
-    image: "https://hips.hearstapps.com/hmg-prod/images/2022-gmc-sierra-1500-at4x-107-1652106261.jpg?crop=0.710xw:0.599xh;0.154xw,0.281xh&resize=2048:*",
-    category: "truck",
-    brand: "GMC",
-    type: "truck",
-  },
-  {
-    id: 10,
-    name: "Jeep Wrangler",
-    year: 2022,
-    price: 40000,
-    mileage: "22,000 km",
-    transmission: "Automatic",
-    seats: 5,
-    fuel: "Gasoline",
-    image: "https://images.pexels.com/photos/13118533/pexels-photo-13118533.jpeg?auto=compress&cs=tinysrgb&w=600",
-    category: "suv",
-    brand: "Jeep",
-    type: "offroad",
-  },
-  {
-    id: 11,
-    name: "Subaru Outback",
-    year: 2023,
-    price: 32000,
-    mileage: "14,000 km",
-    transmission: "Automatic",
-    seats: 5,
-    fuel: "Gasoline",
-    image: "https://images.pexels.com/photos/15928567/pexels-photo-15928567/free-photo-of-a-car-on-the-road.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    category: "wagon",
-    brand: "Subaru",
-    type: "family",
-  },
-  {
-    id: 12,
-    name: "Volkswagen Golf",
-    year: 2022,
-    price: 26000,
-    mileage: "20,000 km",
-    transmission: "Automatic",
-    seats: 5,
-    fuel: "Gasoline",
-    image: "https://images.pexels.com/photos/10843557/pexels-photo-10843557.jpeg?auto=compress&cs=tinysrgb&w=600",
-    category: "hatchback",
-    brand: "Volkswagen",
-    type: "compact",
-  },
-]
+let currentBrands = []
+let displayedBrands = 12
 
-// Sample testimonials data (replace with your actual data source)
-const testimonialsData = [
-  {
-    id: 1,
-    name: "Ahmed Ben Ali",
-    location: "Tunis",
-    image: "images/testimonials/placeholder.svg",
-    text: "J'ai été vraiment impressionné par le niveau de service que j'ai reçu de cette société de location de voitures. Le processus était fluide et facile, et la voiture que j'ai louée était en excellent état. Le personnel était amical et serviable, et je me suis senti bien pris en charge tout au long de ma période de location. Je recommanderais certainement cette entreprise à quiconque recherche une expérience de location de voiture premium.",
-  },
-  {
-    id: 2,
-    name: "Sarra Mansouri",
-    location: "Sousse",
-    image: "images/testimonials/placeholder.svg",
-    text: "Service excellent ! La voiture a été livrée à temps et en parfait état. Le processus de location était simple, et le personnel était très professionnel. J'utiliserai certainement leurs services à nouveau pour mon prochain voyage en Tunisie.",
-  },
-  {
-    id: 3,
-    name: "Mohamed Karim",
-    location: "Sfax",
-    image: "images/testimonials/placeholder.svg",
-    text: "J'ai loué une voiture pour un voyage en famille d'une semaine à travers la Tunisie, et je ne pourrais pas être plus satisfait du service. La voiture était confortable, économe en carburant et parfaite pour nos besoins. Les prix étaient transparents sans frais cachés. Hautement recommandé !",
-  },
-]
+let currentTypes = []
+let displayedTypes = 12
 
-// Load cars function
+// Loading Data Functions
 function loadCars(filter = "all") {
   const carsGrid = document.getElementById("carsGrid")
   if (!carsGrid) return
 
-  // Filter cars based on the selected filter
+  // Filtering
   if (filter === "all") {
     currentCars = [...carsData]
   } else {
     currentCars = carsData.filter((car) => car.category === filter)
   }
 
-  // Clear the grid
   carsGrid.innerHTML = ""
 
-  // Display the first batch of cars
+  // Display
   const carsToDisplay = currentCars.slice(0, displayedCars)
 
   carsToDisplay.forEach((car) => {
@@ -319,11 +89,64 @@ function loadCars(filter = "all") {
     carsGrid.appendChild(carCard)
   })
 
-  // Update the load more button visibility
   updateLoadMoreButton()
 }
 
-// Create car card function
+function loadBrands(){
+  const brandsGrid = document.getElementById("brandsGrid")
+  currentBrands = [...brandsData]
+
+  brandsGrid.innerHTML = ""
+
+  const brandsToDisplay = currentBrands.slice(0, displayedBrands)
+
+  brandsToDisplay.forEach((brand) => {
+    const brandCard = createBrandCard(brand)
+    brandsGrid.appendChild(brandCard)
+  })
+}
+
+function loadTypes(){
+  const brandsGrid = document.getElementById("typesGrid")
+  currentTypes = [...typesData]
+
+  typesGrid.innerHTML = ""
+
+  const typesToDisplay = currentTypes.slice(0, displayedTypes)
+
+  typesToDisplay.forEach((type) => {
+    const typeCard = createTypeCard(type)
+    typesGrid.appendChild(typeCard)
+  })
+}
+
+// Card Creation Functions
+function createBrandCard(brand){
+  const brandCard = document.createElement("div")
+  brandCard.className = "brand-card"
+  brandCard.dataset.brand = brand.brand
+
+  brandCard.innerHTML = `
+    <img src="${brand.image}" alt="${brand.brand}">
+    <p>${brand.brand}</p>
+  `
+
+  return brandCard
+}
+
+function createTypeCard(type){
+  const typeCard = document.createElement("div")
+  typeCard.className = "car-type-card"
+  typeCard.dataset.brand = type.type
+
+  typeCard.innerHTML = `
+    <img src="${type.icon}" alt="${type.type}">
+    <p>${type.type}</p>
+  `
+
+  return typeCard
+}
+
 function createCarCard(car) {
   const carCard = document.createElement("div")
   carCard.className = "car-card"
@@ -464,51 +287,4 @@ function updateLoadMoreButton() {
   } else {
     loadMoreBtn.style.display = "inline-flex"
   }
-}
-
-// Load testimonials function
-function loadTestimonials() {
-  const testimonialsSlider = document.getElementById("testimonialsSlider")
-  if (!testimonialsSlider) return
-
-  // Clear the slider
-  testimonialsSlider.innerHTML = ""
-
-  // Create testimonial element
-  const testimonial = createTestimonialElement(testimonialsData[currentTestimonial])
-
-  // Add testimonial to the slider
-  testimonialsSlider.appendChild(testimonial)
-}
-
-// Create testimonial element function
-function createTestimonialElement(testimonial) {
-  const testimonialElement = document.createElement("div")
-  testimonialElement.className = "testimonial"
-
-  testimonialElement.innerHTML = `
-        <p class="testimonial-content">"${testimonial.text}"</p>
-        <div class="testimonial-author">
-            <div class="author-image">
-                <img src="${testimonial.image}" alt="${testimonial.name}">
-            </div>
-            <div class="author-info">
-                <h4>${testimonial.name}</h4>
-                <p>De ${testimonial.location}</p>
-            </div>
-        </div>
-    `
-
-  return testimonialElement
-}
-
-// Navigate testimonials function
-function navigateTestimonials(direction) {
-  if (direction === "prev") {
-    currentTestimonial = (currentTestimonial - 1 + testimonialsData.length) % testimonialsData.length
-  } else {
-    currentTestimonial = (currentTestimonial + 1) % testimonialsData.length
-  }
-
-  loadTestimonials()
 }
