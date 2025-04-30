@@ -2,8 +2,6 @@ import {brandsData, carsData, typesData} from '/frontend/js/data.js';
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  loadBrands()
-  loadTypes()
   loadCars()
 
   // Filter buttons functionality
@@ -21,34 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 
-  // Brand cards functionality
-  const brandCards = document.querySelectorAll(".brand-card")
-  brandCards.forEach((card) => {
-    card.addEventListener("click", function () {
-      const brand = this.getAttribute("data-brand")
-
-      // Filter cars by brand
-      filterCarsByBrand(brand)
-
-      // Scroll to cars section
-      document.getElementById("cars").scrollIntoView({ behavior: "smooth" })
-    })
-  })
-
-  // Car type cards functionality
-  const carTypeCards = document.querySelectorAll(".car-type-card")
-  carTypeCards.forEach((card) => {
-    card.addEventListener("click", function () {
-      const type = this.getAttribute("data-type")
-
-      // Filter cars by type
-      filterCarsByType(type)
-
-      // Scroll to cars section
-      document.getElementById("cars").scrollIntoView({ behavior: "smooth" })
-    })
-  })
-
   // Load more cars button
   const loadMoreBtn = document.getElementById("loadMoreCars")
   if (loadMoreBtn) {
@@ -60,12 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 let currentCars = []
 let displayedCars = 6
-
-let currentBrands = []
-let displayedBrands = 12
-
-let currentTypes = []
-let displayedTypes = 12
 
 // Loading Data Functions
 function loadCars(filter = "all") {
@@ -92,61 +56,7 @@ function loadCars(filter = "all") {
   updateLoadMoreButton()
 }
 
-function loadBrands(){
-  const brandsGrid = document.getElementById("brandsGrid")
-  currentBrands = [...brandsData]
-
-  brandsGrid.innerHTML = ""
-
-  const brandsToDisplay = currentBrands.slice(0, displayedBrands)
-
-  brandsToDisplay.forEach((brand) => {
-    const brandCard = createBrandCard(brand)
-    brandsGrid.appendChild(brandCard)
-  })
-}
-
-function loadTypes(){
-  const brandsGrid = document.getElementById("typesGrid")
-  currentTypes = [...typesData]
-
-  typesGrid.innerHTML = ""
-
-  const typesToDisplay = currentTypes.slice(0, displayedTypes)
-
-  typesToDisplay.forEach((type) => {
-    const typeCard = createTypeCard(type)
-    typesGrid.appendChild(typeCard)
-  })
-}
-
 // Card Creation Functions
-function createBrandCard(brand){
-  const brandCard = document.createElement("div")
-  brandCard.className = "brand-card"
-  brandCard.dataset.brand = brand.brand
-
-  brandCard.innerHTML = `
-    <img src="${brand.image}" alt="${brand.brand}">
-    <p>${brand.brand}</p>
-  `
-
-  return brandCard
-}
-
-function createTypeCard(type){
-  const typeCard = document.createElement("div")
-  typeCard.className = "car-type-card"
-  typeCard.dataset.brand = type.type
-
-  typeCard.innerHTML = `
-    <img src="${type.icon}" alt="${type.type}">
-    <p>${type.type}</p>
-  `
-
-  return typeCard
-}
-
 function createCarCard(car) {
   const carCard = document.createElement("div")
   carCard.className = "car-card"
