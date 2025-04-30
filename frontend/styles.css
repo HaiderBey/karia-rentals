@@ -590,57 +590,6 @@ header {
   margin-bottom: 15px;
 }
 
-/* Testimonials Section */
-.testimonials {
-  padding: 80px 0;
-}
-
-.testimonial-controls {
-  display: flex;
-  gap: 10px;
-}
-
-.testimonial-btn {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--secondary-color);
-  border: 1px solid var(--light-gray);
-  border-radius: 50%;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.testimonial-btn:hover {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
-}
-
-.testimonials-slider {
-  position: relative;
-  overflow: hidden;
-}
-
-.testimonial {
-  padding: 30px;
-  background-color: var(--secondary-color);
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-}
-
-.testimonial-content {
-  font-size: 16px;
-  line-height: 1.8;
-  margin-bottom: 20px;
-}
-
-.testimonial-author {
-  display: flex;
-  align-items: center;
-}
-
 .author-image {
   width: 50px;
   height: 50px;
@@ -853,4 +802,216 @@ footer {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.profile-container {
+  margin: 120px auto 60px;
+  padding: 0;
+}
 
+.profile-header {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  padding: 40px 0;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.profile-header-content {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid var(--secondary-color);
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-info h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.profile-info p {
+  opacity: 0.8;
+}
+
+.profile-tabs {
+  display: flex;
+  background-color: var(--secondary-color);
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.profile-tab {
+  padding: 20px 30px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  border-bottom: 3px solid transparent;
+}
+
+.profile-tab.active {
+  border-bottom-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.profile-tab:hover {
+  background-color: var(--accent-color);
+}
+
+.profile-content {
+  background-color: var(--secondary-color);
+  padding: 40px;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+/* Rentals Tab */
+.rental-card {
+  display: flex;
+  margin-bottom: 30px;
+  background-color: var(--accent-color);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.rental-image {
+  width: 200px;
+  height: 150px;
+}
+
+.rental-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rental-details {
+  flex: 1;
+  padding: 20px;
+}
+
+.rental-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.rental-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.rental-status {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.status-active {
+  background-color: #e6f7e6;
+  color: #2e7d32;
+}
+
+.status-completed {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.status-cancelled {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.rental-info {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 15px;
+}
+
+.rental-info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.rental-info-label {
+  font-size: 14px;
+  color: var(--dark-gray);
+}
+
+.rental-info-value {
+  font-weight: 600;
+}
+
+.rental-actions {
+  display: flex;
+  gap: 15px;
+}
+
+/* Settings Tab */
+.settings-form .form-group {
+  margin-bottom: 20px;
+}
+
+.settings-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.settings-form input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--light-gray);
+  border-radius: var(--border-radius);
+  font-size: 16px;
+}
+
+.settings-form input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.settings-form .btn {
+  margin-top: 20px;
+}
+
+/* Favorites Tab */
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
