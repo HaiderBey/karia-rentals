@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Karia - Nos Voitures</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script type = "module" src="js/main.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>KARIA</h1>
+                </div>
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="#" class="active">Voitures</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons">
+                    <button class="btn btn-login" onclick="window.location.href='signin.html'">Connexion / Inscription</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Title -->
+    <section class="page-title">
+        <div class="container">
+            <h1>Nos Voitures</h1>
+            <p>Découvrez notre collection de voitures de qualité pour tous vos besoins</p>
+        </div>
+    </section>
+
+    <!-- Search and Filter Section -->
+    <section class="car-search">
+        <div class="container">
+            <div class="search-filters">
+                <div class="search-box">
+                    <input type="text" id="carSearch" placeholder="Rechercher une voiture...">
+                    <button class="search-btn">
+                        <img src="/frontend/images/assets/search.png" alt="Search">
+                    </button>
+                </div>
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <label>Marque</label>
+                        <select id="brandFilter">
+                            <option value="">Toutes les marques</option>
+                            <option value="peugeot">Peugeot</option>
+                            <option value="renault">Renault</option>
+                            <option value="citroen">Citroen</option>
+                            <option value="volkswagen">Volkswagen</option>
+                            <option value="fiat">Fiat</option>
+                            <option value="dacia">Dacia</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Type</label>
+                        <select id="typeFilter">
+                            <option value="">Tous les types</option>
+                            <option value="suv">SUV</option>
+                            <option value="sedan">Sedan</option>
+                            <option value="compact">Compact</option>
+                            <option value="wagon">Wagon</option>
+                            <option value="convertible">Convertible</option>
+                            <option value="crossover">Crossover</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Prix Max</label>
+                        <select id="priceFilter">
+                            <option value="">Tous les prix</option>
+                            <option value="25000">Moins de 25,000</option>
+                            <option value="50000">Moins de 50,000</option>
+                            <option value="75000">Moins de 75,000</option>
+                            <option value="100000">Moins de 100,000</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="applyFilters">Appliquer les filtres</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Car Collection Section -->
+    <section class="car-collection" id="cars">
+        <div class="container">
+            <div class="car-filters">
+                <button class="filter-btn active" data-filter="all">Toutes les Voitures</button>
+                <button class="filter-btn" data-filter="popular">Voiture Populaire</button>
+                <button class="filter-btn" data-filter="luxury">Voiture de Luxe</button>
+                <button class="filter-btn" data-filter="family">Voiture Familiale</button>
+                <button class="filter-btn" data-filter="off-road">Voiture Tout-Terrain</button>
+            </div>
+            <div class="cars-grid" id="carsGrid">
+                <!-- Cars will be dynamically loaded here -->
+            </div>
+            <div class="pagination">
+                <button class="pagination-btn" id="prevPage">Précédent</button>
+                <div class="page-numbers" id="pageNumbers">
+                    <span class="page-number active">1</span>
+                    <span class="page-number">2</span>
+                    <span class="page-number">3</span>
+                </div>
+                <button class="pagination-btn" id="nextPage">Suivant</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>KARIA</h2>
+                </div>
+                <div class="social-links">
+                    <a href="#"><img src="/frontend/images/assets/facebook.png" alt="facebook"></a>
+                    <a href="#"><img src="/frontend/images/assets/instagram.png" alt="instagram"></a>
+                    <a href="#"><img src="/frontend/images/assets/youtube.png" alt="youtube"></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Karia Location de Voitures. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Load cars with all filters
+            loadCars();
+
+            // Apply filters button
+            const applyFiltersBtn = document.getElementById("applyFilters");
+            if (applyFiltersBtn) {
+                applyFiltersBtn.addEventListener("click", () => {
+                    const brand = document.getElementById("brandFilter").value;
+                    const type = document.getElementById("typeFilter").value;
+                    const price = document.getElementById("priceFilter").value;
+                    
+                    applyAdvancedFilters(brand, type, price);
+                });
+            }
+
+            // Search functionality
+            const searchInput = document.getElementById("carSearch");
+            if (searchInput) {
+                searchInput.addEventListener("keyup", (e) => {
+                    if (e.key === "Enter") {
+                        const searchTerm = searchInput.value.toLowerCase();
+                        searchCars(searchTerm);
+                    }
+                });
+            }
+
+            // Pagination
+            const prevPageBtn = document.getElementById("prevPage");
+            const nextPageBtn = document.getElementById("nextPage");
+            
+            if (prevPageBtn && nextPageBtn) {
+                prevPageBtn.addEventListener("click", () => {
+                    navigatePage("prev");
+                });
+                
+                nextPageBtn.addEventListener("click", () => {
+                    navigatePage("next");
+                });
+            }
+        });
+
+        // Global variables for pagination
+        let currentPage = 1;
+        let carsPerPage = 9;
+        let filteredCars = [...carsData]; // Assuming carsData is defined in main.js
+
+        // Apply advanced filters
+        function applyAdvancedFilters(brand, type, maxPrice) {
+            filteredCars = carsData.filter(car => {
+                let matchesBrand = true;
+                let matchesType = true;
+                let matchesPrice = true;
+                
+                if (brand) {
+                    matchesBrand = car.brand.toLowerCase() === brand.toLowerCase();
+                }
+                
+                if (type) {
+                    matchesType = car.type.toLowerCase() === type.toLowerCase();
+                }
+                
+                if (maxPrice) {
+                    matchesPrice = car.price <= parseInt(maxPrice);
+                }
+                
+                return matchesBrand && matchesType && matchesPrice;
+            });
+            
+            currentPage = 1;
+            displayCars();
+            updatePagination();
+        }
+
+        // Search cars
+        function searchCars(searchTerm) {
+            if (!searchTerm) {
+                filteredCars = [...carsData];
+            } else {
+                filteredCars = carsData.filter(car => {
+                    return car.name.toLowerCase().includes(searchTerm) || 
+                           car.brand.toLowerCase().includes(searchTerm) ||
+                           car.type.toLowerCase().includes(searchTerm);
+                });
+            }
+            
+            currentPage = 1;
+            displayCars();
+            updatePagination();
+        }
+
+        // Display cars with pagination
+        function displayCars() {
+            const carsGrid = document.getElementById("carsGrid");
+            if (!carsGrid) return;
+            
+            carsGrid.innerHTML = "";
+            
+            const startIndex = (currentPage - 1) * carsPerPage;
+            const endIndex = startIndex + carsPerPage;
+            const carsToDisplay = filteredCars.slice(startIndex, endIndex);
+            
+            if (carsToDisplay.length === 0) {
+                carsGrid.innerHTML = "<div class='no-cars'>Aucune voiture ne correspond à vos critères.</div>";
+                return;
+            }
+            
+            carsToDisplay.forEach(car => {
+                const carCard = createCarCard(car);
+                carsGrid.appendChild(carCard);
+            });
+        }
+
+        // Update pagination
+        function updatePagination() {
+            const pageNumbers = document.getElementById("pageNumbers");
+            if (!pageNumbers) return;
+            
+            const totalPages = Math.ceil(filteredCars.length / carsPerPage);
+            
+            pageNumbers.innerHTML = "";
+            
+            for (let i = 1; i <= totalPages; i++) {
+                const pageNumber = document.createElement("span");
+                pageNumber.className = `page-number ${i === currentPage ? "active" : ""}`;
+                pageNumber.textContent = i;
+                
+                pageNumber.addEventListener("click", () => {
+                    currentPage = i;
+                    displayCars();
+                    updatePagination();
+                });
+                
+                pageNumbers.appendChild(pageNumber);
+            }
+            
+            // Update prev/next buttons
+            const prevPageBtn = document.getElementById("prevPage");
+            const nextPageBtn = document.getElementById("nextPage");
+            
+            if (prevPageBtn) {
+                prevPageBtn.disabled = currentPage === 1;
+            }
+            
+            if (nextPageBtn) {
+                nextPageBtn.disabled = currentPage === totalPages;
+            }
+        }
+
+        // Navigate pages
+        function navigatePage(direction) {
+            const totalPages = Math.ceil(filteredCars.length / carsPerPage);
+            
+            if (direction === "prev" && currentPage > 1) {
+                currentPage--;
+            } else if (direction === "next" && currentPage < totalPages) {
+                currentPage++;
+            }
+            
+            displayCars();
+            updatePagination();
+        }
+    </script>
+</body>
+</html>
