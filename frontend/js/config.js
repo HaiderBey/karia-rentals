@@ -35,7 +35,7 @@ const STORAGE_KEYS = {
 // Default Images
 const DEFAULT_IMAGES = {
   VEHICLE: "/frontend/images/placeholder.svg",
-  USER: "/frontend/images/user-placeholder.svg",
+  USER: "/frontend/images/avatar-placeholder.svg",
 }
 
 // Reservation Status Colors

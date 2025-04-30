@@ -39,12 +39,12 @@
                 <div class="container">
                     <div class="profile-header-content">
                         <div class="profile-avatar">
-                            <img src="https://via.placeholder.com/120" alt="User Avatar">
+                            <img src="images/avatar-placeholder.png" alt="User Avatar">
                         </div>
                         <div class="profile-info">
-                            <h2>Jean Dupont</h2>
-                            <p>jean.dupont@example.com</p>
-                            <p>Membre depuis Janvier 2023</p>
+                            <h2 id = "user-name">Loading...</h2>
+                            <p id = "user-email">Loading...</p>
+                            <p id = "member-since">Loading...</p>
                         </div>
                     </div>
                 </div>
@@ -297,7 +297,9 @@
         </div>
     </footer>
 
-    <script>
+    <script type ="module">
+        import { auth } from './js/auth.js';
+
         document.addEventListener("DOMContentLoaded", () => {
             // Tab switching functionality
             const tabs = document.querySelectorAll(".profile-tab");
@@ -320,7 +322,7 @@
                     });
                 });
             });
-            
+
             // Settings form submission
             const settingsForm = document.getElementById("settingsForm");
             if (settingsForm) {
@@ -347,6 +349,12 @@
                     alert("Profil mis à jour avec succès!");
                 });
             }
+
+            if (auth.isAuthenticated) {
+                loadProfile();
+            } else {
+                window.location.href = '/login.html'
+            }
             
             // Logout button
             const logoutBtn = document.getElementById("logoutBtn");
@@ -358,6 +366,29 @@
                 });
             }
         });
+        
+        //Loading User Information
+        async function loadProfile() {
+            try{
+                const profileData = await auth.getProfile();
+                
+                document.getElementById('user-name').textContent = `${profileData.firstName} ${profileData.lastName}`;
+                document.getElementById('user-email').textContent = profileData.email;
+                
+                const joinDate = new Date(profileData.createdAt);
+                const options = { year: 'numeric', month: 'long' };
+                
+                document.getElementById('member-since').textContent = `Membre depuis ${joinDate.toLocaleDateString('fr-FR', options)}`;
+
+                if (profileData.avatar) {
+                    document.getElementById('user-avatar').src = profileData.avatar;
+                }
+
+            } catch(error) {
+                console.error('Failed to load profile:', error);
+            }
+        }
+
     </script>
 </body>
 </html>
