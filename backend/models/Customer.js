@@ -26,7 +26,7 @@ const customerSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
     },
     address: {
@@ -39,12 +39,12 @@ const customerSchema = new mongoose.Schema(
     drivingLicense: {
       number: {
         type: String,
-        required: true,
+        required: false,
         trim: true,
       },
       expiryDate: {
         type: Date,
-        required: true,
+        required: false,
       },
       verified: {
         type: Boolean,
@@ -56,11 +56,11 @@ const customerSchema = new mongoose.Schema(
       type: {
         type: String,
         enum: ["passport", "id_card", "other"],
-        required: true,
+        required: false,
       },
       number: {
         type: String,
-        required: true,
+        required: false,
       },
       verified: {
         type: Boolean,

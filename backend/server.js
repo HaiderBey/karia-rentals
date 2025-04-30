@@ -14,9 +14,23 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 5000
 
+// CORS configuration - Allow requests from any origin during development
+const corsOptions = {
+  origin: "*", // In production, replace with your specific domain
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+}
+
 // Middleware
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(express.json())
+
+// Log all incoming requests for debugging
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`, req.headers);
+  next();
+});
 
 // Connect to MongoDB
 mongoose

@@ -111,6 +111,18 @@
             color: var(--primary-color);
             font-weight: 600;
         }
+
+        /* Error message styling */
+        .error-message {
+            color: #e74c3c;
+            margin-top: 10px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -149,6 +161,7 @@
                         <input type="password" id="password" name="password" required>
                         <a href="#" class="forgot-password">Mot de passe oublié?</a>
                     </div>
+                    <div class="error-message" id="loginError"></div>
                     <button type="submit" class="btn btn-primary">Se connecter</button>
                 </form>
                 <div class="auth-footer">
@@ -190,29 +203,72 @@
         </div>
     </footer>
 
-    <script>
+    <script type="module">
+        import { API_CONFIG, STORAGE_KEYS } from "./js/config.js";
+        
         document.addEventListener("DOMContentLoaded", () => {
             const signinForm = document.getElementById("signinForm");
+            const loginError = document.getElementById("loginError");
             
             if (signinForm) {
-                signinForm.addEventListener("submit", (e) => {
+                signinForm.addEventListener("submit", async (e) => {
                     e.preventDefault();
+                    
+                    // Hide any previous error messages
+                    loginError.textContent = "";
+                    loginError.classList.remove("show");
                     
                     const email = document.getElementById("email").value;
                     const password = document.getElementById("password").value;
                     
                     // Validate form
                     if (!email || !password) {
-                        alert("Veuillez remplir tous les champs");
+                        loginError.textContent = "Veuillez remplir tous les champs";
+                        loginError.classList.add("show");
                         return;
                     }
                     
-                    // Here you would normally send the data to your server
-                    // For demo purposes, we'll just simulate a successful login
-                    alert("Connexion réussie!");
-                    
-                    // Redirect to profile page
-                    window.location.href = "profile.html";
+                    try {
+                        // Prepare request
+                        const url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.LOGIN}`;
+                        console.log("Sending request to:", url);
+                        
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({ email, password }),
+                            mode: 'cors' // Explicitly set CORS mode
+                        });
+                        
+                        console.log("Response status:", response.status);
+                        const data = await response.json();
+                        console.log("Response data:", data);
+                        
+                        if (!response.ok) {
+                            throw new Error(data.message || "Erreur de connexion");
+                        }
+                        
+                        // Save token and user data
+                        localStorage.setItem(STORAGE_KEYS.TOKEN, data.token);
+                        localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify({
+                            id: data.customer.id,
+                            firstName: data.customer.firstName,
+                            lastName: data.customer.lastName,
+                            email: data.customer.email
+                        }));
+                        
+                        alert("Connexion réussie!");
+                        
+                        // Redirect to profile page
+                        window.location.href = "profile.html";
+                    } catch (error) {
+                        console.error("Login error:", error);
+                        loginError.textContent = error.message || "Une erreur est survenue lors de la connexion";
+                        loginError.classList.add("show");
+                    }
                 });
             }
         });

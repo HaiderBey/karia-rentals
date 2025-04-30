@@ -223,12 +223,14 @@
         </div>
     </footer>
 
-    <script>
+    <script type="module">
+        import { API_CONFIG, STORAGE_KEYS } from "./js/config.js";
+        
         document.addEventListener("DOMContentLoaded", () => {
             const registerForm = document.getElementById("registerForm");
             
             if (registerForm) {
-                registerForm.addEventListener("submit", (e) => {
+                registerForm.addEventListener("submit", async (e) => {
                     e.preventDefault();
                     
                     const firstName = document.getElementById("firstName").value;
@@ -255,12 +257,42 @@
                         return;
                     }
                     
-                    // Here you would normally send the data to your server
-                    // For demo purposes, we'll just simulate a successful registration
-                    alert("Inscription réussie!");
-                    
-                    // Redirect to profile page
-                    window.location.href = "profile.html";
+                    try {
+                        // Prepare request
+                        const url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.REGISTER}`;
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                firstName,
+                                lastName,
+                                email,
+                                phone,
+                                password,
+                                address: {}
+                            })
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (!response.ok) {
+                            throw new Error(data.message || "Erreur d'inscription");
+                        }
+                        
+                        // Save token and user data
+                        localStorage.setItem(STORAGE_KEYS.TOKEN, data.token);
+                        localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(data.customer));
+                        
+                        alert("Inscription réussie!");
+                        
+                        // Redirect to profile page
+                        window.location.href = "profile.html";
+                    } catch (error) {
+                        console.error("Registration error:", error);
+                        alert(error.message || "Une erreur est survenue lors de l'inscription");
+                    }
                 });
             }
         });

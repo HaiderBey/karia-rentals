@@ -8,6 +8,7 @@ const router = express.Router()
 
 // Register new customer
 router.post("/register", async (req, res) => {
+  console.log("Register request:", { body: req.body, headers: req.headers });
   try {
     // Check if email already exists
     const existingCustomer = await Customer.findOne({ email: req.body.email })
@@ -34,6 +35,7 @@ router.post("/register", async (req, res) => {
       },
     })
   } catch (error) {
+    console.error("Registration error:", error)
     res.status(400).json({ message: error.message })
   }
 })
