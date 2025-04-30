@@ -1,5 +1,5 @@
 // Import necessary modules or declare variables
-import { STORAGE_KEYS } from "./constants.js" // Assuming STORAGE_KEYS is defined in constants.js
+import { STORAGE_KEYS } from "./config.js" // Assuming STORAGE_KEYS is defined in constants.js
 import { api } from "./api.js" // Assuming api is defined in api.js
 
 // Authentication Service
@@ -18,7 +18,6 @@ class AuthService {
     if (token && userData) {
       this.isAuthenticated = true
       this.user = JSON.parse(userData)
-      this.updateAuthUI()
     }
   }
 
@@ -52,7 +51,6 @@ class AuthService {
     localStorage.removeItem(STORAGE_KEYS.USER)
     this.isAuthenticated = false
     this.user = null
-    this.updateAuthUI()
     showToast("Vous avez été déconnecté avec succès", "success")
   }
 
@@ -62,23 +60,6 @@ class AuthService {
     localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user))
     this.isAuthenticated = true
     this.user = user
-    this.updateAuthUI()
-  }
-
-  // Update UI based on authentication state
-  updateAuthUI() {
-    const authButton = document.getElementById("authButton")
-    const userMenu = document.getElementById("userMenu")
-    const userGreeting = document.getElementById("userGreeting")
-
-    if (this.isAuthenticated && this.user) {
-      authButton.style.display = "none"
-      userMenu.style.display = "flex"
-      userGreeting.textContent = `Bonjour, ${this.user.firstName}`
-    } else {
-      authButton.style.display = "block"
-      userMenu.style.display = "none"
-    }
   }
 
   // Check if user is authenticated
@@ -155,7 +136,7 @@ class AuthService {
 }
 
 // Create auth service instance
-const auth = new AuthService()
+export const auth = new AuthService()
 
 // Helper function to open auth modal
 function openAuthModal() {

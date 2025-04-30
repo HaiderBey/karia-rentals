@@ -1,6 +1,6 @@
 // Import API configuration and storage keys
-import { API_CONFIG } from "./config/apiConfig"
-import { STORAGE_KEYS } from "./config/storageKeys"
+import { API_CONFIG } from "./config.js"
+import { STORAGE_KEYS } from "./config.js"
 
 // API Service
 class ApiService {
@@ -158,4 +158,4 @@ class ApiService {
 }
 
 // Create and export API service instance
-const api = new ApiService()
+export const api = new ApiService()
