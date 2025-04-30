@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Karia - Location de Voitures en Tunisie</title>
+    <link rel="icon" href="https://img.icons8.com/dusk/64/car-rental.png" type="image/x-icon" sizes = "32x32">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <script src="js/main.js"></script>
+    <script type = "module" src="js/main.js"></script>
 </head>
 <body>
-    <!-- Header Section -->
+
     <header>
         <div class="container">
             <div class="header-content">
@@ -18,9 +19,6 @@
                     <h1>KARIA</h1>
                 </div>
                 <nav>
-                    <button class="menu-toggle" id="menuToggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
                     <ul class="nav-menu">
                         <li><a href="#" class="active">Accueil</a></li>
                         <li><a href="/frontend/voitures.html">Voitures</a></li>
@@ -33,7 +31,6 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
@@ -47,7 +44,7 @@
     </section>
 
     <section class="search-form">
-      <div class="form-group">
+      <div class="search-field">
         <label>Pick-up Location</label>
         <div class="input-group">
           <img src="/frontend/images/assets/location.png" alt="Location">
@@ -55,7 +52,7 @@
         </div>
       </div>
       
-      <div class="form-group">
+      <div class="search-field">
         <label>Pick-up date</label>
         <div class="input-group">
           <input type="text" value="12/12/2023">
@@ -63,7 +60,7 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="search-field">
         <label>Drop-off Location</label>
         <div class="input-group">
           <img src="/frontend/images/assets/location.png" alt="Location">
@@ -71,7 +68,7 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="search-field">
         <label>Drop-off date</label>
         <div class="input-group">
           <input type="text" value="12/12/2023">
@@ -85,7 +82,6 @@
       </button>
     </section>
 
-    <!-- Brands Section -->
     <section class="brands" id="brands">
         <div class="container">
             <div class="section-header">
@@ -95,31 +91,8 @@
                     <img src="/frontend/images/assets/arrow-right-black.png" alt="Search">
                 </a>
             </div>
-            <div class="brands-grid">
-                <div class="brand-card" data-brand="peugeot">
-                    <img src="images/brands/peugeot.svg" alt="Peugeot">
-                    <p>Peugeot</p>
-                </div>
-                <div class="brand-card" data-brand="renault">
-                    <img src="images/brands/renault.svg" alt="Renault">
-                    <p>Renault</p>
-                </div>
-                <div class="brand-card" data-brand="citroen">
-                    <img src="images/brands/citroen.svg" alt="Citroen">
-                    <p>Citroen</p>
-                </div>
-                <div class="brand-card" data-brand="volkswagen">
-                    <img src="images/brands/volkswagen.svg" alt="Volkswagen">
-                    <p>Volkswagen</p>
-                </div>
-                <div class="brand-card" data-brand="fiat">
-                    <img src="images/brands/fiat.svg" alt="Fiat">
-                    <p>Fiat</p>
-                </div>
-                <div class="brand-card" data-brand="dacia">
-                    <img src="images/brands/dacia.svg" alt="Dacia">
-                    <p>Dacia</p>
-                </div>
+            <div class="brands-grid" id = "brandsGrid">
+                <!-- Dynamically added brands -->
             </div>
         </div>
             
@@ -131,43 +104,8 @@
                     <img src="/frontend/images/assets/arrow-right-black.png" alt="Search">
                 </a>
             </div>
-            <div class="car-types-grid">
-                <div class="car-type-card" data-type="suv">
-                    <div class="car-type-icon">
-                        <img src="images/assets/suv.png" alt="SUV">
-                    </div>
-                    <p>SUV</p>
-                </div>
-                <div class="car-type-card" data-type="sedan">
-                    <div class="car-type-icon">
-                        <img src="images/assets/sedan.png" alt="SUV">
-                    </div>
-                    <p>Sedan</p>
-                </div>
-                <div class="car-type-card" data-type="compact">
-                    <div class="car-type-icon">
-                        <img src="images/assets/compact.png" alt="SUV">
-                    </div>
-                    <p>Compact</p>
-                </div>
-                <div class="car-type-card" data-type="wagon">
-                    <div class="car-type-icon">
-                        <img src="images/assets/wagon.png" alt="SUV">
-                    </div>
-                    <p>Wagon</p>
-                </div>
-                <div class="car-type-card" data-type="convertible">
-                    <div class="car-type-icon">
-                        <img src="images/assets/convertible.png" alt="SUV">
-                    </div>
-                    <p>Convertible</p>
-                </div>
-                <div class="car-type-card" data-type="crossover">
-                    <div class="car-type-icon">
-                        <img src="images/assets/crossover.png" alt="SUV">
-                    </div>
-                    <p>Crossover</p>
-                </div>
+            <div class="car-types-grid" id = "typesGrid">
+                <!-- Dynamically added types -->
             </div>
         </div>
     </section>
