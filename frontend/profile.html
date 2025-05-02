@@ -350,10 +350,11 @@
                 });
             }
 
-            if (auth.isAuthenticated) {
-                loadProfile();
+            if (auth.isAuthenticated){
+                 loadProfile();
             } else {
-                window.location.href = '/login.html'
+                 window.location.href = './signin.html'
+                
             }
             
             // Logout button

@@ -25,7 +25,7 @@
                     </ul>
                 </nav>
                 <div class="auth-buttons">
-                    <button class="btn btn-login" onclick="window.location.href='signin.html'">Connexion / Inscription</button>
+                    <button class="btn btn-login" id = "login" onclick="window.location.href='signin.html'">Connexion / Inscription</button>
                 </div>
             </div>
         </div>
@@ -225,7 +225,8 @@
     
     <script type = "module">
         import {brandsData, typesData} from '/frontend/js/data.js';
-        
+        import { auth } from './js/auth.js';
+
         let currentBrands = []
         let displayedBrands = 12
 
@@ -234,8 +235,12 @@
 
         loadBrands()
         loadTypes()
+        
 
         document.addEventListener("DOMContentLoaded", () => {
+            //switching Auth buttons with Profile icon
+            headerSwitch()    
+
             // Brand cards functionality
             const brandCards = document.querySelectorAll(".brand-card")
             brandCards.forEach((card) => {
@@ -265,6 +270,13 @@
             })
         })
         
+        function headerSwitch(elm){
+            const authButton = document.getElementById("login")
+            if(auth.isAuthenticated){
+                authButton.style.display = "none"
+            }
+        }    
+
         function loadBrands(){
             const brandsGrid = document.getElementById("brandsGrid")
             currentBrands = [...brandsData]
