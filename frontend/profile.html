@@ -3,14 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <title>Karia - Mon Profil</title>
-    <link rel="icon" href="https://img.icons8.com/dusk/64/car-rental.png" type="image/x-icon" sizes = "32x32">
+    <link rel="icon" href="https://img.icons8.com/dusk/64/car-rental.png" type="image/x-icon" sizes="32x32">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <script type = "module" src="js/main.js"></script>
+    <script type="module" src="js/main.js"></script>
     <style>
-
+        .verification-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .verified {
+            background-color: #e6f7e6;
+            color: #2e7d32;
+        }
+        
+        .not-verified {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .document-preview {
+            width: 100%;
+            max-width: 300px;
+            height: 180px;
+            border: 1px dashed var(--light-gray);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            overflow: hidden;
+            background-color: var(--accent-color);
+        }
+        
+        .document-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .document-upload {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .upload-btn {
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .upload-btn input[type="file"] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            cursor: pointer;
+            display: block;
+        }
+        
+        .loyalty-section {
+            background-color: var(--accent-color);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .loyalty-points {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .loyalty-info {
+            flex: 1;
+            padding-left: 20px;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .address-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .address-fields .form-group:first-child {
+            grid-column: 1 / -1;
+        }
+        
+        .empty-message {
+            text-align: center;
+            padding: 30px;
+            background-color: var(--accent-color);
+            border-radius: var(--border-radius);
+            color: var(--dark-gray);
+        }
     </style>
 </head>
 <body style="margin:0; height:100vh; display:flex; flex-direction:column;">
@@ -40,12 +149,12 @@
                 <div class="container">
                     <div class="profile-header-content">
                         <div class="profile-avatar">
-                            <img src="images/avatar-placeholder.png" alt="User Avatar">
+                            <img src="images/avatar-placeholder.png" alt="User Avatar" id="profile-avatar-img">
                         </div>
                         <div class="profile-info">
-                            <h2 id = "user-name">Loading...</h2>
-                            <p id = "user-email">Loading...</p>
-                            <p id = "member-since">Loading...</p>
+                            <h2 id="user-name">Loading...</h2>
+                            <p id="user-email">Loading...</p>
+                            <p id="member-since">Loading...</p>
                         </div>
                     </div>
                 </div>
@@ -55,174 +164,24 @@
                 <div class="profile-tab active" data-tab="rentals">Mes Locations</div>
                 <div class="profile-tab" data-tab="favorites">Favoris</div>
                 <div class="profile-tab" data-tab="settings">Paramètres</div>
+                <div class="profile-tab" data-tab="documents">Documents</div>
             </div>
             
             <div class="profile-content">
                 <!-- Rentals Tab -->
                 <div class="tab-content active" id="rentals">
                     <h3 class="section-title">Historique de Locations</h3>
-                    
-                    <!-- <div class="rental-card">
-                        <div class="rental-image">
-                            <img src="https://via.placeholder.com/200x150" alt="Car">
-                        </div>
-                        <div class="rental-details">
-                            <div class="rental-header">
-                                <h4 class="rental-title">Peugeot 208</h4>
-                                <span class="rental-status status-active">En cours</span>
-                            </div>
-                            <div class="rental-info">
-                                <div class="rental-info-item">
-                                    <span class="rental-info-label">Date de début</span>
-                                    <span class="rental-info-value">15/04/2023</span>
-                                </div>
-                                <div class="rental-info-item">
-                                    <span class="rental-info-label">Date de fin</span>
-                                    <span class="rental-info-value">20/04/2023</span>
-                                </div>
-                                <div class="rental-info-item">
-                                    <span class="rental-info-label">Lieu de prise en charge</span>
-                                    <span class="rental-info-value">Tunis Centre</span>
-                                </div>
-                                <div class="rental-info-item">
-                                    <span class="rental-info-label">Prix total</span>
-                                    <span class="rental-info-value">750 TND</span>
-                                </div>
-                            </div>
-                            <div class="rental-actions">
-                                <button class="btn btn-secondary">Voir les détails</button>
-                                <button class="btn btn-primary">Prolonger</button>
-                            </div>
-                        </div>
+                    <div id="rentals-container">
+                        <!-- Rentals will be loaded here -->
                     </div>
-                    
-                    <div class="rental-card">
-                        <div class="rental-image">
-                            <img src="https://via.placeholder.com/200x150" alt="Car">
-                        </div>
-                        <div class="rental-details">
-                            <div class="rental-header">
-                                <h4 class="rental-title">Renault Clio</h4>
-                                <span class="rental-status status-completed">Terminée</span>
-                            </div>
-                            <div class="rental-info">
-                                <div class="rental-info-item">
-                                    <span class="rental-info-label">Date de début</span>
-                                    <span class="rental-info-value">01/03/2023</span>
-                                </div>
-                                <div class="rental-info-item">
-                                    <span class="rental-info-label">Date de fin</span>
-                                    <span class="rental-info-value">05/03/2023</span>
-                                </div>
-                                <div class="rental-info-item">
-                                    <span class="rental-info-label">Lieu de prise en charge</span>
-                                    <span class="rental-info-value">Aéroport de Tunis</span>
-                                </div>
-                                <div class="rental-info-item">
-                                    <span class="rental-info-label">Prix total</span>
-                                    <span class="rental-info-value">500 TND</span>
-                                </div>
-                            </div>
-                            <div class="rental-actions">
-                                <button class="btn btn-secondary">Voir les détails</button>
-                                <button class="btn btn-primary">Réserver à nouveau</button>
-                            </div>
-                        </div>
-                    </div> -->
                 </div>
                 
                 <!-- Favorites Tab -->
                 <div class="tab-content" id="favorites">
                     <h3 class="section-title">Mes Voitures Favorites</h3>
-                    
-                    <!-- <div class="favorites-grid">
-                        <div class="car-card">
-                            <div class="car-image">
-                                <img src="https://via.placeholder.com/350x200" alt="Car">
-                            </div>
-                            <div class="car-details">
-                                <h3 class="car-title">BMW X5 2022</h3>
-                                <div class="car-price">60000.00 <span>/jour</span></div>
-                                <div class="car-features">
-                                    <div class="feature">
-                                        <i class="fas fa-tachometer-alt"></i>
-                                        <span>10,000 km</span>
-                                    </div>
-                                    <div class="feature">
-                                        <i class="fas fa-cog"></i>
-                                        <span>Automatic</span>
-                                    </div>
-                                    <div class="feature">
-                                        <i class="fas fa-user"></i>
-                                        <span>5 Personnes</span>
-                                    </div>
-                                    <div class="feature">
-                                        <i class="fas fa-gas-pump"></i>
-                                        <span>Gasoline</span>
-                                    </div>
-                                </div>
-                                <button class="btn btn-primary">Louer Maintenant</button>
-                            </div>
-                        </div>
-                        
-                        <div class="car-card">
-                            <div class="car-image">
-                                <img src="https://via.placeholder.com/350x200" alt="Car">
-                            </div>
-                            <div class="car-details">
-                                <h3 class="car-title">Mercedes C-Class 2023</h3>
-                                <div class="car-price">55000.00 <span>/jour</span></div>
-                                <div class="car-features">
-                                    <div class="feature">
-                                        <i class="fas fa-tachometer-alt"></i>
-                                        <span>5,000 km</span>
-                                    </div>
-                                    <div class="feature">
-                                        <i class="fas fa-cog"></i>
-                                        <span>Automatic</span>
-                                    </div>
-                                    <div class="feature">
-                                        <i class="fas fa-user"></i>
-                                        <span>5 Personnes</span>
-                                    </div>
-                                    <div class="feature">
-                                        <i class="fas fa-gas-pump"></i>
-                                        <span>Gasoline</span>
-                                    </div>
-                                </div>
-                                <button class="btn btn-primary">Louer Maintenant</button>
-                            </div>
-                        </div>
-                        
-                        <div class="car-card">
-                            <div class="car-image">
-                                <img src="https://via.placeholder.com/350x200" alt="Car">
-                            </div>
-                            <div class="car-details">
-                                <h3 class="car-title">Audi A4 2022</h3>
-                                <div class="car-price">45000.00 <span>/jour</span></div>
-                                <div class="car-features">
-                                    <div class="feature">
-                                        <i class="fas fa-tachometer-alt"></i>
-                                        <span>12,000 km</span>
-                                    </div>
-                                    <div class="feature">
-                                        <i class="fas fa-cog"></i>
-                                        <span>Automatic</span>
-                                    </div>
-                                    <div class="feature">
-                                        <i class="fas fa-user"></i>
-                                        <span>5 Personnes</span>
-                                    </div>
-                                    <div class="feature">
-                                        <i class="fas fa-gas-pump"></i>
-                                        <span>Gasoline</span>
-                                    </div>
-                                </div>
-                                <button class="btn btn-primary">Louer Maintenant</button>
-                            </div>
-                        </div>
-                    </div> -->
+                    <div id="favorites-container">
+                        <!-- Favorites will be loaded here -->
+                    </div>
                 </div>
                 
                 <!-- Settings Tab -->
@@ -230,50 +189,157 @@
                     <h3 class="section-title">Paramètres du Compte</h3>
                     
                     <form class="settings-form" id="settingsForm">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="settingsFirstName">Prénom</label>
-                                <input type="text" id="settingsFirstName" name="firstName" value="test">
+                        <div class="form-section">
+                            <h4>Informations Personnelles</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="settingsFirstName">Prénom</label>
+                                    <input type="text" id="settingsFirstName" name="firstName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="settingsLastName">Nom</label>
+                                    <input type="text" id="settingsLastName" name="lastName">
+                                </div>
                             </div>
+                            
                             <div class="form-group">
-                                <label for="settingsLastName">Nom</label>
-                                <input type="text" id="settingsLastName" name="lastName" value="Dupont">
+                                <label for="settingsEmail">Email</label>
+                                <input type="email" id="settingsEmail" name="email">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="settingsPhone">Téléphone</label>
+                                <input type="tel" id="settingsPhone" name="phone">
                             </div>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="settingsEmail">Email</label>
-                            <input type="email" id="settingsEmail" name="email" value="jean.dupont@example.com">
+                        <div class="form-section">
+                            <h4>Adresse</h4>
+                            <div class="address-fields">
+                                <div class="form-group">
+                                    <label for="settingsStreet">Rue</label>
+                                    <input type="text" id="settingsStreet" name="street">
+                                </div>
+                                <div class="form-group">
+                                    <label for="settingsCity">Ville</label>
+                                    <input type="text" id="settingsCity" name="city">
+                                </div>
+                                <div class="form-group">
+                                    <label for="settingsState">État/Province</label>
+                                    <input type="text" id="settingsState" name="state">
+                                </div>
+                                <div class="form-group">
+                                    <label for="settingsZipCode">Code Postal</label>
+                                    <input type="text" id="settingsZipCode" name="zipCode">
+                                </div>
+                                <div class="form-group">
+                                    <label for="settingsCountry">Pays</label>
+                                    <input type="text" id="settingsCountry" name="country">
+                                </div>
+                            </div>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="settingsPhone">Téléphone</label>
-                            <input type="tel" id="settingsPhone" name="phone" value="+216 12 345 678">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="settingsAddress">Adresse</label>
-                            <input type="text" id="settingsAddress" name="address" value="123 Rue de Tunis">
-                        </div>
-                        
-                        <h3 class="section-title">Changer le mot de passe</h3>
-                        
-                        <div class="form-group">
-                            <label for="currentPassword">Mot de passe actuel</label>
-                            <input type="password" id="currentPassword" name="currentPassword">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="newPassword">Nouveau mot de passe</label>
-                            <input type="password" id="newPassword" name="newPassword">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="confirmNewPassword">Confirmer le nouveau mot de passe</label>
-                            <input type="password" id="confirmNewPassword" name="confirmNewPassword">
+                        <div class="form-section">
+                            <h4>Changer le mot de passe</h4>
+                            <div class="form-group">
+                                <label for="currentPassword">Mot de passe actuel</label>
+                                <input type="password" id="currentPassword" name="currentPassword">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="newPassword">Nouveau mot de passe</label>
+                                <input type="password" id="newPassword" name="newPassword">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirmNewPassword">Confirmer le nouveau mot de passe</label>
+                                <input type="password" id="confirmNewPassword" name="confirmNewPassword">
+                            </div>
                         </div>
                         
                         <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                    </form>
+                    
+                    <div class="loyalty-section">
+                        <div class="loyalty-points" id="loyaltyPoints">0</div>
+                        <div class="loyalty-info">
+                            <h4>Points de Fidélité</h4>
+                            <p>Accumulez des points à chaque location et échangez-les contre des réductions sur vos prochaines réservations.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Documents Tab -->
+                <div class="tab-content" id="documents">
+                    <h3 class="section-title">Mes Documents</h3>
+                    
+                    <form class="settings-form" id="documentsForm">
+                        <div class="form-section">
+                            <h4>Permis de Conduire 
+                                <span id="drivingLicenseVerification" class="verification-badge not-verified">Non Vérifié</span>
+                            </h4>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="drivingLicenseNumber">Numéro de Permis</label>
+                                    <input type="text" id="drivingLicenseNumber" name="drivingLicenseNumber">
+                                </div>
+                                <div class="form-group">
+                                    <label for="drivingLicenseExpiry">Date d'Expiration</label>
+                                    <input type="date" id="drivingLicenseExpiry" name="drivingLicenseExpiry">
+                                </div>
+                            </div>
+                            
+                            <div class="document-preview" id="drivingLicensePreview">
+                                <img src="images/license-placeholder.png" alt="Permis de Conduire" id="drivingLicenseImage" style="display: none;">
+                                <span id="drivingLicenseUploadText">Aucune image téléchargée</span>
+                            </div>
+                            
+                            <div class="document-upload">
+                                <div class="upload-btn">
+                                    <button type="button" class="btn btn-secondary">Télécharger une image</button>
+                                    <input type="file" id="drivingLicenseFile" accept="image/*">
+                                </div>
+                                <small>Formats acceptés: JPG, PNG. Taille maximale: 5MB</small>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h4>Pièce d'Identité 
+                                <span id="identityDocVerification" class="verification-badge not-verified">Non Vérifié</span>
+                            </h4>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="identityDocType">Type de Document</label>
+                                    <select id="identityDocType" name="identityDocType">
+                                        <option value="">Sélectionner un type</option>
+                                        <option value="passport">Passeport</option>
+                                        <option value="id_card">Carte d'Identité</option>
+                                        <option value="other">Autre</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="identityDocNumber">Numéro de Document</label>
+                                    <input type="text" id="identityDocNumber" name="identityDocNumber">
+                                </div>
+                            </div>
+                            
+                            <div class="document-preview" id="identityDocPreview">
+                                <img src="images/id-placeholder.png" alt="Pièce d'Identité" id="identityDocImage" style="display: none;">
+                                <span id="identityDocUploadText">Aucune image téléchargée</span>
+                            </div>
+                            
+                            <div class="document-upload">
+                                <div class="upload-btn">
+                                    <button type="button" class="btn btn-secondary">Télécharger une image</button>
+                                    <input type="file" id="identityDocFile" accept="image/*">
+                                </div>
+                                <small>Formats acceptés: JPG, PNG. Taille maximale: 5MB</small>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Enregistrer les documents</button>
                     </form>
                 </div>
             </div>
@@ -298,14 +364,26 @@
         </div>
     </footer>
 
-    <script type ="module">
+    <script type="module">
         import { auth } from './js/auth.js';
+
+        // DOM Elements
+        const tabs = document.querySelectorAll(".profile-tab");
+        const tabContents = document.querySelectorAll(".tab-content");
+        const settingsForm = document.getElementById("settingsForm");
+        const documentsForm = document.getElementById("documentsForm");
+        const logoutBtn = document.getElementById("logoutBtn");
+        
+        // File upload elements
+        const drivingLicenseFile = document.getElementById("drivingLicenseFile");
+        const identityDocFile = document.getElementById("identityDocFile");
+        const drivingLicenseImage = document.getElementById("drivingLicenseImage");
+        const identityDocImage = document.getElementById("identityDocImage");
+        const drivingLicenseUploadText = document.getElementById("drivingLicenseUploadText");
+        const identityDocUploadText = document.getElementById("identityDocUploadText");
 
         document.addEventListener("DOMContentLoaded", () => {
             // Tab switching functionality
-            const tabs = document.querySelectorAll(".profile-tab");
-            const tabContents = document.querySelectorAll(".tab-content");
-            
             tabs.forEach(tab => {
                 tab.addEventListener("click", () => {
                     const tabId = tab.getAttribute("data-tab");
@@ -325,9 +403,8 @@
             });
 
             // Settings form submission
-            const settingsForm = document.getElementById("settingsForm");
             if (settingsForm) {
-                settingsForm.addEventListener("submit", (e) => {
+                settingsForm.addEventListener("submit", async (e) => {
                     e.preventDefault();
                     
                     // Validate password change if attempted
@@ -345,35 +422,139 @@
                         return;
                     }
                     
-                    // Here you would normally send the data to your server
-                    // For demo purposes, we'll just simulate a successful update
-                    alert("Profil mis à jour avec succès!");
+                    try {
+                        // Collect form data
+                        const formData = {
+                            firstName: document.getElementById("settingsFirstName").value,
+                            lastName: document.getElementById("settingsLastName").value,
+                            email: document.getElementById("settingsEmail").value,
+                            phone: document.getElementById("settingsPhone").value,
+                            address: {
+                                street: document.getElementById("settingsStreet").value,
+                                city: document.getElementById("settingsCity").value,
+                                state: document.getElementById("settingsState").value,
+                                zipCode: document.getElementById("settingsZipCode").value,
+                                country: document.getElementById("settingsCountry").value
+                            }
+                        };
+                        
+                        // Add password data if provided
+                        if (newPassword) {
+                            formData.currentPassword = currentPassword;
+                            formData.newPassword = newPassword;
+                        }
+                        
+                        console.log("Updating profile with:", formData);
+                        
+                        // Simulate API call
+                        // await auth.updateProfile(formData);
+                        
+                        alert("Profil mis à jour avec succès!");
+                    } catch (error) {
+                        console.error("Error updating profile:", error);
+                        alert("Une erreur est survenue lors de la mise à jour du profil.");
+                    }
+                });
+            }
+            
+            // Documents form submission
+            if (documentsForm) {
+                documentsForm.addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    
+                    try {
+                        // Collect form data
+                        const formData = {
+                            drivingLicense: {
+                                number: document.getElementById("drivingLicenseNumber").value,
+                                expiryDate: document.getElementById("drivingLicenseExpiry").value,
+                                // Image would be handled separately with file upload
+                            },
+                            identityDocument: {
+                                type: document.getElementById("identityDocType").value,
+                                number: document.getElementById("identityDocNumber").value,
+                                // Image would be handled separately with file upload
+                            }
+                        };
+                        
+                        console.log("Updating documents with:", formData);
+                        
+                        // Simulate API call
+                        // await auth.updateDocuments(formData);
+                        
+                        alert("Documents mis à jour avec succès!");
+                    } catch (error) {
+                        console.error("Error updating documents:", error);
+                        alert("Une erreur est survenue lors de la mise à jour des documents.");
+                    }
+                });
+            }
+            
+            // File upload handling
+            if (drivingLicenseFile) {
+                drivingLicenseFile.addEventListener("change", (e) => {
+                    handleFileUpload(e, drivingLicenseImage, drivingLicenseUploadText);
+                });
+            }
+            
+            if (identityDocFile) {
+                identityDocFile.addEventListener("change", (e) => {
+                    handleFileUpload(e, identityDocImage, identityDocUploadText);
                 });
             }
 
-            if (auth.isAuthenticated){
-                 loadProfile();
+            // Check authentication and load profile
+            if (auth.isAuthenticated) {
+                loadProfile();
             } else {
-                 window.location.href = './signin.html'
-                
+                window.location.href = './signin.html';
             }
             
             // Logout button
-            const logoutBtn = document.getElementById("logoutBtn");
             if (logoutBtn) {
                 logoutBtn.addEventListener("click", () => {
-                    // Here you would normally handle logout on the server
-                    // For demo purposes, we'll just redirect to the home page
+                    auth.logout();
                     window.location.href = "index.html";
                 });
             }
         });
         
-        //Loading User Information
+        // Handle file upload preview
+        function handleFileUpload(event, imageElement, textElement) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Validate file type and size
+            const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            
+            if (!validTypes.includes(file.type)) {
+                alert("Format de fichier non valide. Veuillez télécharger une image JPG ou PNG.");
+                return;
+            }
+            
+            if (file.size > maxSize) {
+                alert("Fichier trop volumineux. La taille maximale est de 5MB.");
+                return;
+            }
+            
+            // Create preview
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imageElement.src = e.target.result;
+                imageElement.style.display = "block";
+                textElement.style.display = "none";
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        // Loading User Information
         async function loadProfile() {
-            try{
+            try {
                 const profileData = await auth.getProfile();
+                console.log("Profile data loaded:", profileData);
                 
+                // Update header information
                 document.getElementById('user-name').textContent = `${profileData.firstName} ${profileData.lastName}`;
                 document.getElementById('user-email').textContent = profileData.email;
                 
@@ -382,15 +563,246 @@
                 
                 document.getElementById('member-since').textContent = `Membre depuis ${joinDate.toLocaleDateString('fr-FR', options)}`;
 
+                // Update avatar if available
                 if (profileData.avatar) {
-                    document.getElementById('user-avatar').src = profileData.avatar;
+                    document.getElementById('profile-avatar-img').src = profileData.avatar;
+                }
+                
+                // Update loyalty points
+                document.getElementById('loyaltyPoints').textContent = profileData.loyaltyPoints || 0;
+                
+                // Update settings form fields
+                updateSettingsForm(profileData);
+                
+                // Update documents form fields
+                updateDocumentsForm(profileData);
+                
+                // Load rentals if available
+                if (profileData.rentals && profileData.rentals.length > 0) {
+                    loadRentals(profileData.rentals);
+                } else {
+                    showEmptyState('rentals-container', 'Vous n\'avez pas encore de locations.');
+                }
+                
+                // Load favorites if available
+                if (profileData.favorites && profileData.favorites.length > 0) {
+                    loadFavorites(profileData.favorites);
+                } else {
+                    showEmptyState('favorites-container', 'Vous n\'avez pas encore de voitures favorites.');
                 }
 
             } catch(error) {
                 console.error('Failed to load profile:', error);
             }
         }
-
+        
+        // Update settings form with user data
+        function updateSettingsForm(profileData) {
+            // Basic information
+            document.getElementById('settingsFirstName').value = profileData.firstName || '';
+            document.getElementById('settingsLastName').value = profileData.lastName || '';
+            document.getElementById('settingsEmail').value = profileData.email || '';
+            document.getElementById('settingsPhone').value = profileData.phone || '';
+            
+            // Address fields
+            if (profileData.address) {
+                document.getElementById('settingsStreet').value = profileData.address.street || '';
+                document.getElementById('settingsCity').value = profileData.address.city || '';
+                document.getElementById('settingsState').value = profileData.address.state || '';
+                document.getElementById('settingsZipCode').value = profileData.address.zipCode || '';
+                document.getElementById('settingsCountry').value = profileData.address.country || '';
+            }
+        }
+        
+        // Update documents form with user data
+        function updateDocumentsForm(profileData) {
+            // Driving License
+            if (profileData.drivingLicense) {
+                document.getElementById('drivingLicenseNumber').value = profileData.drivingLicense.number || '';
+                
+                if (profileData.drivingLicense.expiryDate) {
+                    const expiryDate = new Date(profileData.drivingLicense.expiryDate);
+                    document.getElementById('drivingLicenseExpiry').value = expiryDate.toISOString().split('T')[0];
+                }
+                
+                // Update verification badge
+                const drivingLicenseVerification = document.getElementById('drivingLicenseVerification');
+                if (profileData.drivingLicense.verified) {
+                    drivingLicenseVerification.textContent = 'Vérifié';
+                    drivingLicenseVerification.className = 'verification-badge verified';
+                }
+                
+                // Update image if available
+                if (profileData.drivingLicense.image) {
+                    document.getElementById('drivingLicenseImage').src = profileData.drivingLicense.image;
+                    document.getElementById('drivingLicenseImage').style.display = 'block';
+                    document.getElementById('drivingLicenseUploadText').style.display = 'none';
+                }
+            }
+            
+            // Identity Document
+            if (profileData.identityDocument) {
+                document.getElementById('identityDocType').value = profileData.identityDocument.type || '';
+                document.getElementById('identityDocNumber').value = profileData.identityDocument.number || '';
+                
+                // Update verification badge
+                const identityDocVerification = document.getElementById('identityDocVerification');
+                if (profileData.identityDocument.verified) {
+                    identityDocVerification.textContent = 'Vérifié';
+                    identityDocVerification.className = 'verification-badge verified';
+                }
+                
+                // Update image if available
+                if (profileData.identityDocument.image) {
+                    document.getElementById('identityDocImage').src = profileData.identityDocument.image;
+                    document.getElementById('identityDocImage').style.display = 'block';
+                    document.getElementById('identityDocUploadText').style.display = 'none';
+                }
+            }
+        }
+        
+        // Show empty state message
+        function showEmptyState(containerId, message) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            const emptyMessage = document.createElement('div');
+            emptyMessage.className = 'empty-message';
+            emptyMessage.textContent = message;
+            container.appendChild(emptyMessage);
+        }
+        
+        // Load rentals
+        function loadRentals(rentals) {
+            const container = document.getElementById('rentals-container');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            rentals.forEach(rental => {
+                const rentalCard = createRentalCard(rental);
+                container.appendChild(rentalCard);
+            });
+        }
+        
+        // Create rental card
+        function createRentalCard(rental) {
+            const card = document.createElement('div');
+            card.className = 'rental-card';
+            
+            const statusClass = rental.status === 'active' ? 'status-active' : 
+                              rental.status === 'completed' ? 'status-completed' : 
+                              'status-cancelled';
+            
+            const statusText = rental.status === 'active' ? 'En cours' : 
+                             rental.status === 'completed' ? 'Terminée' : 
+                             'Annulée';
+            
+            card.innerHTML = `
+                <div class="rental-image">
+                    <img src="${rental.car?.image || 'images/car-placeholder.png'}" alt="${rental.car?.name || 'Voiture'}">
+                </div>
+                <div class="rental-details">
+                    <div class="rental-header">
+                        <h4 class="rental-title">${rental.car?.name || 'Voiture'}</h4>
+                        <span class="rental-status ${statusClass}">${statusText}</span>
+                    </div>
+                    <div class="rental-info">
+                        <div class="rental-info-item">
+                            <span class="rental-info-label">Date de début</span>
+                            <span class="rental-info-value">${formatDate(rental.startDate)}</span>
+                        </div>
+                        <div class="rental-info-item">
+                            <span class="rental-info-label">Date de fin</span>
+                            <span class="rental-info-value">${formatDate(rental.endDate)}</span>
+                        </div>
+                        <div class="rental-info-item">
+                            <span class="rental-info-label">Lieu de prise en charge</span>
+                            <span class="rental-info-value">${rental.pickupLocation || 'Non spécifié'}</span>
+                        </div>
+                        <div class="rental-info-item">
+                            <span class="rental-info-label">Prix total</span>
+                            <span class="rental-info-value">${rental.totalPrice || '0'} TND</span>
+                        </div>
+                    </div>
+                    <div class="rental-actions">
+                        <button class="btn btn-secondary">Voir les détails</button>
+                        ${rental.status === 'active' ? 
+                          '<button class="btn btn-primary">Prolonger</button>' : 
+                          rental.status === 'completed' ? 
+                          '<button class="btn btn-primary">Réserver à nouveau</button>' : 
+                          ''}
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // Load favorites
+        function loadFavorites(favorites) {
+            const container = document.getElementById('favorites-container');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            const grid = document.createElement('div');
+            grid.className = 'favorites-grid';
+            
+            favorites.forEach(car => {
+                const carCard = createCarCard(car);
+                grid.appendChild(carCard);
+            });
+            
+            container.appendChild(grid);
+        }
+        
+        // Create car card
+        function createCarCard(car) {
+            const card = document.createElement('div');
+            card.className = 'car-card';
+            
+            card.innerHTML = `
+                <div class="car-image">
+                    <img src="${car.image || 'images/car-placeholder.png'}" alt="${car.name || 'Voiture'}">
+                </div>
+                <div class="car-details">
+                    <h3 class="car-title">${car.name || 'Voiture'} ${car.year || ''}</h3>
+                    <div class="car-price">${car.price || '0'}.00 <span>/jour</span></div>
+                    <div class="car-features">
+                        <div class="feature">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>${car.mileage || 'N/A'}</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-cog"></i>
+                            <span>${car.transmission || 'N/A'}</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-user"></i>
+                            <span>${car.seats || '5'} Personnes</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-gas-pump"></i>
+                            <span>${car.fuel || 'N/A'}</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary">Louer Maintenant</button>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // Format date helper
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return 'N/A';
+            
+            return date.toLocaleDateString('fr-FR');
+        }
     </script>
 </body>
 </html>
