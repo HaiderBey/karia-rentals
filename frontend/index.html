@@ -241,6 +241,7 @@
 
         const guestView = document.getElementById('guest-view')
         const authView = document.getElementById('authenticated-view')
+        const logoutBtn = document.getElementById("disconnect-button");
         // const disconnectBtn = document.getElementById('disconnect-button')
 
         let currentBrands = []
@@ -259,6 +260,12 @@
             switchView()
 
             // Brand cards functionality
+            if (logoutBtn) {
+                logoutBtn.addEventListener("click", () => {
+                    auth.logout();
+                    window.location.href = "signin.html";
+                });
+            }
             const brandCards = document.querySelectorAll(".brand-card")
             brandCards.forEach((card) => {
                 card.addEventListener("click", function () {

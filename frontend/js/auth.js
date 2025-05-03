@@ -143,8 +143,8 @@ function openAuthModal() {
   const authModal = document.getElementById("authModal")
   const modalOverlay = document.getElementById("modalOverlay")
 
-  authModal.classList.add("active")
-  modalOverlay.classList.add("active")
+  if (authModal) authModal.classList.add("active")
+  if (modalOverlay) modalOverlay.classList.add("active")
 }
 
 // Helper function to show toast notification
@@ -172,7 +172,8 @@ function closeModal(modal) {
   if (!modal) return
 
   modal.classList.remove("active")
-  document.getElementById("modalOverlay").classList.remove("active")
+  const modalOverlay = document.getElementById("modalOverlay")
+  if (modalOverlay) modalOverlay.classList.remove("active")
 }
 
 // Helper function to close all modals
@@ -180,29 +181,21 @@ function closeAllModals() {
   const modals = document.querySelectorAll(".modal")
   const modalOverlay = document.getElementById("modalOverlay")
 
-  modals.forEach((modal) => {
-    modal.classList.remove("active")
-  })
-
-  if (modalOverlay) {
-    modalOverlay.classList.remove("active")
-  }
+  modals.forEach((modal) => modal.classList.remove("active"))
+  if (modalOverlay) modalOverlay.classList.remove("active")
 }
 
 // Helper functions to open profile and reservations modals
 function openProfileModal() {
-  // Implementation for opening profile modal
   console.log("Opening profile modal")
 }
 
 function openReservationsModal() {
-  // Implementation for opening reservations modal
   console.log("Opening reservations modal")
 }
 
 // Auth UI Event Handlers
 document.addEventListener("DOMContentLoaded", () => {
-  // Auth modal elements
   const authButton = document.getElementById("authButton")
   const authModal = document.getElementById("authModal")
   const closeAuthModal = document.getElementById("closeAuthModal")
@@ -213,31 +206,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const registerForm = document.getElementById("registerForm")
   const loginError = document.getElementById("loginError")
   const registerError = document.getElementById("registerError")
-
-  // User menu elements
   const logoutButton = document.getElementById("logoutButton")
   const profileButton = document.getElementById("profileButton")
   const reservationsButton = document.getElementById("reservationsButton")
 
   // Open auth modal
   if (authButton) {
-    authButton.addEventListener("click", () => {
-      openAuthModal()
-    })
+    authButton.addEventListener("click", openAuthModal)
   }
 
   // Close auth modal
   if (closeAuthModal) {
-    closeAuthModal.addEventListener("click", () => {
-      closeModal(authModal)
-    })
+    closeAuthModal.addEventListener("click", () => closeModal(authModal))
   }
 
   // Close modal when clicking overlay
   if (modalOverlay) {
-    modalOverlay.addEventListener("click", () => {
-      closeAllModals()
-    })
+    modalOverlay.addEventListener("click", closeAllModals)
   }
 
   // Switch between auth tabs
@@ -245,11 +230,9 @@ document.addEventListener("DOMContentLoaded", () => {
     tab.addEventListener("click", () => {
       const tabName = tab.getAttribute("data-tab")
 
-      // Update active tab
       authTabs.forEach((t) => t.classList.remove("active"))
       tab.classList.add("active")
 
-      // Show corresponding form
       authForms.forEach((form) => {
         form.classList.remove("active")
         if (form.id === `${tabName}Form`) {
@@ -257,7 +240,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       })
 
-      // Clear error messages
       if (loginError) loginError.textContent = ""
       if (registerError) registerError.textContent = ""
     })
@@ -293,7 +275,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const password = document.getElementById("registerPassword").value
       const confirmPassword = document.getElementById("registerConfirmPassword").value
 
-      // Validate passwords match
       if (password !== confirmPassword) {
         if (registerError) registerError.textContent = "Les mots de passe ne correspondent pas"
         return
@@ -318,27 +299,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Logout button
   if (logoutButton) {
-    logoutButton.addEventListener("click", () => {
-      auth.logout()
-    })
+    logoutButton.addEventListener("click", auth.logout.bind(auth))
   }
 
   // Profile button
   if (profileButton) {
-    profileButton.addEventListener("click", () => {
-      openProfileModal()
-    })
+    profileButton.addEventListener("click", openProfileModal)
   }
 
   // Reservations button
   if (reservationsButton) {
-    reservationsButton.addEventListener("click", () => {
-      openReservationsModal()
-    })
+    reservationsButton.addEventListener("click", openReservationsModal)
   }
-})
-
-// Initialize auth on page load
-window.addEventListener("load", () => {
-  auth.initAuth()
 })
