@@ -1,0 +1,42 @@
+document.addEventListener('DOMContentLoaded', function() {
+  const guestView = document.getElementById('guest-view');
+  const authView = document.getElementById('authenticated-view');
+  const disconnectBtn = document.getElementById('disconnect-button');
+  
+  // Check auth status on page load
+  checkAuthStatus();
+  
+  function checkAuthStatus() {
+    // If using server-side rendering, the status is already in the template
+    // If using client-side rendering:
+    fetch('/api/auth/status')
+      .then(response => response.json())
+      .then(data => {
+        if (data.isAuthenticated) {
+          showAuthenticatedView();
+        } else {
+          showGuestView();
+        }
+      });
+  }
+  
+  function showAuthenticatedView() {
+    guestView.style.display = 'none';
+    authView.style.display = 'block';
+    // You might also load the user's profile picture here
+  }
+  
+  function showGuestView() {
+    guestView.style.display = 'block';
+    authView.style.display = 'none';
+  }
+  
+  // Handle disconnect
+  disconnectBtn.addEventListener('click', function() {
+    fetch('/api/auth/logout', { method: 'POST' })
+      .then(() => {
+        showGuestView();
+        window.location.href = '/'; // Refresh the page
+      });
+  });
+});

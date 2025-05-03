@@ -24,8 +24,21 @@
                         <li><a href="/frontend/voitures.html">Voitures</a></li>
                     </ul>
                 </nav>
-                <div class="auth-buttons">
-                    <button class="btn btn-login" id = "login" onclick="window.location.href='signin.html'">Connexion / Inscription</button>
+                <div id = "auth-section">
+                    <!-- When not logged in -->
+                    <div class="auth-buttons" id="guest-view">
+                        <button class="btn btn-login" onclick="window.location.href='signin.html'">Connexion / Inscription</button>
+                    </div>
+                    <!-- When logged in -->
+                    <div id="authenticated-view" style="display: none;">
+                        <div id="profile-dropdown">
+                            <img id="profile-icon" src="images/assets/profile.svg" alt="Profile">
+                            <div id="dropdown-menu">
+                                <button onclick="window.location.href='profile.html'">Profile</button>
+                                <button id="disconnect-button">Disconnect</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -227,6 +240,10 @@
         import {brandsData, typesData} from '/frontend/js/data.js';
         import { auth } from './js/auth.js';
 
+        const guestView = document.getElementById('guest-view')
+        const authView = document.getElementById('authenticated-view')
+        // const disconnectBtn = document.getElementById('disconnect-button')
+
         let currentBrands = []
         let displayedBrands = 12
 
@@ -238,8 +255,9 @@
         
 
         document.addEventListener("DOMContentLoaded", () => {
-            //switching Auth buttons with Profile icon
-            headerSwitch()    
+            
+            //View Switching (Authenticated/ Guest)
+            switchView()
 
             // Brand cards functionality
             const brandCards = document.querySelectorAll(".brand-card")
@@ -247,7 +265,6 @@
                 card.addEventListener("click", function () {
                     const brand = this.getAttribute("data-brand")
 
-                    // Filter cars by brand
                     filterCarsByBrand(brand)
 
                     // Scroll to cars section
@@ -261,7 +278,6 @@
                 card.addEventListener("click", function () {
                     const type = this.getAttribute("data-type")
 
-                    // Filter cars by type
                     filterCarsByType(type)
 
                     // Scroll to cars section
@@ -270,13 +286,24 @@
             })
         })
         
-        function headerSwitch(elm){
-            const authButton = document.getElementById("login")
+        function switchView(){
             if(auth.isAuthenticated){
-                authButton.style.display = "none"
+                showAuthenticatedView();
+            } else {
+                showGuestView();
             }
-        }    
+        }
 
+        function showAuthenticatedView(){
+            guestView.style.display = 'none';
+            authView.style.display = 'block';
+        }
+
+        function showGuestView(){
+            guestView.style.display = 'block';
+            authView.style.display = 'none';
+        }
+    
         function loadBrands(){
             const brandsGrid = document.getElementById("brandsGrid")
             currentBrands = [...brandsData]

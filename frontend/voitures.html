@@ -22,8 +22,21 @@
                         <li><a href="#" class="active">Voitures</a></li>
                     </ul>
                 </nav>
-                <div class="auth-buttons">
-                    <button class="btn btn-login" onclick="window.location.href='signin.html'">Connexion / Inscription</button>
+                <div id = "auth-section">
+                    <!-- When not logged in -->
+                    <div class="auth-buttons" id="guest-view">
+                        <button class="btn btn-login" onclick="window.location.href='signin.html'">Connexion / Inscription</button>
+                    </div>
+                    <!-- When logged in -->
+                    <div id="authenticated-view" style="display: none;">
+                        <div id="profile-dropdown">
+                            <img id="profile-icon" src="images/assets/profile.svg" alt="Profile">
+                            <div id="dropdown-menu">
+                                <button onclick="window.location.href='profile.html'">Profile</button>
+                                <button id="disconnect-button">Disconnect</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -44,7 +57,7 @@
                 <div class="search-box">
                     <input type="text" id="carSearch" placeholder="Rechercher une voiture...">
                     <button class="search-btn">
-                        <img src="/frontend/images/assets/search.png" alt="Search">
+                        <img src="/frontend/images/assets/search-white.png" alt="Search">
                     </button>
                 </div>
                 <div class="filter-container">
@@ -131,8 +144,18 @@
         </div>
     </footer>
 
-    <script>
+    <script type="module">
+        import { auth } from './js/auth.js';
+
+        const guestView = document.getElementById('guest-view')
+        const authView = document.getElementById('authenticated-view')
+        // const disconnectBtn = document.getElementById('disconnect-button')
+
         document.addEventListener("DOMContentLoaded", () => {
+
+            //View Switching (Authenticated/ Guest)
+            switchView()
+
             // Load cars with all filters
             loadCars();
 
@@ -173,6 +196,24 @@
                 });
             }
         });
+
+        function switchView(){
+            if(auth.isAuthenticated){
+                showAuthenticatedView();
+            } else {
+                showGuestView();
+            }
+        }
+
+        function showAuthenticatedView(){
+            guestView.style.display = 'none';
+            authView.style.display = 'block';
+        }
+
+        function showGuestView(){
+            guestView.style.display = 'block';
+            authView.style.display = 'none';
+        }
 
         // Global variables for pagination
         let currentPage = 1;
