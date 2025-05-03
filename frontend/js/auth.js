@@ -94,7 +94,7 @@ class AuthService {
       return updatedProfile
     } catch (error) {
       console.error("Update profile error:", error)
-      throw error
+      alert(error.message || "Une erreur est survenue lors de la mise à jour du profil.");
     }
   }
 
@@ -131,6 +131,17 @@ class AuthService {
     } catch (error) {
       console.error("Upload identity error:", error)
       throw error
+    }
+  }
+
+  isTokenExpired(token) {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const expiry = payload.exp * 1000; // Convert to milliseconds
+      return Date.now() > expiry;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return true; // Treat invalid tokens as expired
     }
   }
 }

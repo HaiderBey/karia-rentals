@@ -291,7 +291,6 @@
                             </div>
                             
                             <div class="document-preview" id="drivingLicensePreview">
-                                <img src="images/license-placeholder.png" alt="Permis de Conduire" id="drivingLicenseImage" style="display: none;">
                                 <span id="drivingLicenseUploadText">Aucune image téléchargée</span>
                             </div>
                             
@@ -326,7 +325,6 @@
                             </div>
                             
                             <div class="document-preview" id="identityDocPreview">
-                                <img src="images/id-placeholder.png" alt="Pièce d'Identité" id="identityDocImage" style="display: none;">
                                 <span id="identityDocUploadText">Aucune image téléchargée</span>
                             </div>
                             
@@ -447,8 +445,7 @@
                         console.log("Updating profile with:", formData);
                         
                         // Simulate API call
-                        // await auth.updateProfile(formData);
-                        
+                        await auth.updateProfile(formData);
                         alert("Profil mis à jour avec succès!");
                     } catch (error) {
                         console.error("Error updating profile:", error);
@@ -480,7 +477,8 @@
                         console.log("Updating documents with:", formData);
                         
                         // Simulate API call
-                        // await auth.updateDocuments(formData);
+                        await auth.uploadIdentity(formData.identityDocument);
+                        await auth.uploadLicense(formData.drivingLicense);
                         
                         alert("Documents mis à jour avec succès!");
                     } catch (error) {

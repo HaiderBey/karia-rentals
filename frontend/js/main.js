@@ -1,11 +1,11 @@
 import { brandsData, carsData, typesData } from "/frontend/js/data.js";
 import { STORAGE_KEYS } from "/frontend/js/config.js";
-import { logout, isTokenExpired } from "/frontend/js/auth.js";
+import {auth} from "/frontend/js/auth.js";
 
 // ✅ Token validation before DOM loads
 const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-if (!token || isTokenExpired(token)) {
-  logout(); // Auto logout if token invalid/expired
+if (!token || auth.isTokenExpired(token)) {
+  auth.logout(); // Auto logout if token invalid/expired
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -34,11 +34,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ✅ Handle logout button if present
+  // Handle logout button if present
   const logoutBtn = document.getElementById("logoutBtn");
   if (logoutBtn) {
     logoutBtn.style.display = "block";
-    logoutBtn.addEventListener("click", logout);
+    logoutBtn.addEventListener("click", auth.logout);
   }
 });
 
