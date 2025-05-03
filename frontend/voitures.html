@@ -145,82 +145,152 @@
     </footer>
 
     <script type="module">
+        import { carsData } from './js/data.js';
         import { auth } from './js/auth.js';
+        import { createCarCard } from './js/main.js';
 
-        const guestView = document.getElementById('guest-view')
-        const authView = document.getElementById('authenticated-view')
-        // const disconnectBtn = document.getElementById('disconnect-button')
+        // DOM Elements
+        const guestView = document.getElementById('guest-view');
+        const authView = document.getElementById('authenticated-view');
+        const carsGrid = document.getElementById('carsGrid');
+        const searchInput = document.getElementById('carSearch');
+        const applyFiltersBtn = document.getElementById('applyFilters');
+        const prevPageBtn = document.getElementById('prevPage');
+        const nextPageBtn = document.getElementById('nextPage');
+        const pageNumbers = document.getElementById('pageNumbers');
+        const filterButtons = document.querySelectorAll('.filter-btn');
 
-        document.addEventListener("DOMContentLoaded", () => {
+        // State variables
+        let filteredCars = [...carsData];
+        let currentPage = 1;
+        const carsPerPage = 9;
 
-            //View Switching (Authenticated/ Guest)
-            switchView()
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Authentication view
+            updateAuthView();
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Initial cars display
+            displayCars();
+            updatePagination();
+        });
 
-            // Load cars with all filters
-            loadCars();
-
-            // Apply filters button
-            const applyFiltersBtn = document.getElementById("applyFilters");
+        /**
+         * Setup all event listeners
+         */
+        function setupEventListeners() {
+            // Category filter buttons
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Apply category filter
+                    const filter = button.getAttribute('data-filter');
+                    applyCategoryFilter(filter);
+                });
+            });
+            
+            // Advanced filters
             if (applyFiltersBtn) {
-                applyFiltersBtn.addEventListener("click", () => {
-                    const brand = document.getElementById("brandFilter").value;
-                    const type = document.getElementById("typeFilter").value;
-                    const price = document.getElementById("priceFilter").value;
+                applyFiltersBtn.addEventListener('click', () => {
+                    const brand = document.getElementById('brandFilter').value;
+                    const type = document.getElementById('typeFilter').value;
+                    const price = document.getElementById('priceFilter').value;
                     
                     applyAdvancedFilters(brand, type, price);
                 });
             }
-
+            
             // Search functionality
-            const searchInput = document.getElementById("carSearch");
             if (searchInput) {
-                searchInput.addEventListener("keyup", (e) => {
-                    if (e.key === "Enter") {
+                searchInput.addEventListener('keyup', (e) => {
+                    if (e.key === 'Enter') {
                         const searchTerm = searchInput.value.toLowerCase();
                         searchCars(searchTerm);
                     }
                 });
-            }
-
-            // Pagination
-            const prevPageBtn = document.getElementById("prevPage");
-            const nextPageBtn = document.getElementById("nextPage");
-            
-            if (prevPageBtn && nextPageBtn) {
-                prevPageBtn.addEventListener("click", () => {
-                    navigatePage("prev");
-                });
                 
-                nextPageBtn.addEventListener("click", () => {
-                    navigatePage("next");
-                });
+                // Also add click handler for search button
+                const searchBtn = document.querySelector('.search-btn');
+                if (searchBtn) {
+                    searchBtn.addEventListener('click', () => {
+                        const searchTerm = searchInput.value.toLowerCase();
+                        searchCars(searchTerm);
+                    });
+                }
             }
-        });
+            
+            // Pagination
+            if (prevPageBtn) {
+                prevPageBtn.addEventListener('click', () => navigatePage('prev'));
+            }
+            
+            if (nextPageBtn) {
+                nextPageBtn.addEventListener('click', () => navigatePage('next'));
+            }
+        }
 
-        function switchView(){
-            if(auth.isAuthenticated){
-                showAuthenticatedView();
+        /**
+         * Update authentication view based on auth status
+         */
+        function updateAuthView() {
+            if (auth.isAuthenticated) {
+                guestView.style.display = 'none';
+                authView.style.display = 'block';
+                
+                // Setup disconnect button
+                const disconnectBtn = document.getElementById('disconnect-button');
+                if (disconnectBtn) {
+                    disconnectBtn.addEventListener('click', () => {
+                        auth.logout();
+                        updateAuthView();
+                    });
+                }
+                
+                // Setup profile dropdown
+                const profileIcon = document.getElementById('profile-icon');
+                const dropdownMenu = document.getElementById('dropdown-menu');
+                if (profileIcon && dropdownMenu) {
+                    profileIcon.addEventListener('click', () => {
+                        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+                    });
+                    
+                    // Close dropdown when clicking outside
+                    document.addEventListener('click', (e) => {
+                        if (!profileIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                            dropdownMenu.style.display = 'none';
+                        }
+                    });
+                }
             } else {
-                showGuestView();
+                guestView.style.display = 'block';
+                authView.style.display = 'none';
             }
         }
 
-        function showAuthenticatedView(){
-            guestView.style.display = 'none';
-            authView.style.display = 'block';
+        /**
+         * Apply category filter (all, popular, luxury, etc.)
+         */
+        function applyCategoryFilter(filter) {
+            if (filter === 'all') {
+                filteredCars = [...carsData];
+            } else {
+                filteredCars = carsData.filter(car => car.category === filter);
+            }
+            
+            currentPage = 1;
+            displayCars();
+            updatePagination();
         }
 
-        function showGuestView(){
-            guestView.style.display = 'block';
-            authView.style.display = 'none';
-        }
-
-        // Global variables for pagination
-        let currentPage = 1;
-        let carsPerPage = 9;
-        let filteredCars = [...carsData]; // Assuming carsData is defined in main.js
-
-        // Apply advanced filters
+        /**
+         * Apply advanced filters (brand, type, price)
+         */
         function applyAdvancedFilters(brand, type, maxPrice) {
             filteredCars = carsData.filter(car => {
                 let matchesBrand = true;
@@ -242,12 +312,19 @@
                 return matchesBrand && matchesType && matchesPrice;
             });
             
+            // Reset to first page and update UI
             currentPage = 1;
             displayCars();
             updatePagination();
+            
+            // Reset category filter buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            filterButtons[0].classList.add('active');
         }
 
-        // Search cars
+        /**
+         * Search cars by name, brand, or type
+         */
         function searchCars(searchTerm) {
             if (!searchTerm) {
                 filteredCars = [...carsData];
@@ -262,14 +339,19 @@
             currentPage = 1;
             displayCars();
             updatePagination();
+            
+            // Reset category filter buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            filterButtons[0].classList.add('active');
         }
 
-        // Display cars with pagination
+        /**
+         * Display cars with pagination
+         */
         function displayCars() {
-            const carsGrid = document.getElementById("carsGrid");
             if (!carsGrid) return;
             
-            carsGrid.innerHTML = "";
+            carsGrid.innerHTML = '';
             
             const startIndex = (currentPage - 1) * carsPerPage;
             const endIndex = startIndex + carsPerPage;
@@ -286,21 +368,23 @@
             });
         }
 
-        // Update pagination
+        /**
+         * Update pagination UI
+         */
         function updatePagination() {
-            const pageNumbers = document.getElementById("pageNumbers");
             if (!pageNumbers) return;
             
             const totalPages = Math.ceil(filteredCars.length / carsPerPage);
             
-            pageNumbers.innerHTML = "";
+            pageNumbers.innerHTML = '';
             
+            // Create page number elements
             for (let i = 1; i <= totalPages; i++) {
-                const pageNumber = document.createElement("span");
-                pageNumber.className = `page-number ${i === currentPage ? "active" : ""}`;
+                const pageNumber = document.createElement('span');
+                pageNumber.className = `page-number ${i === currentPage ? 'active' : ''}`;
                 pageNumber.textContent = i;
                 
-                pageNumber.addEventListener("click", () => {
+                pageNumber.addEventListener('click', () => {
                     currentPage = i;
                     displayCars();
                     updatePagination();
@@ -309,26 +393,25 @@
                 pageNumbers.appendChild(pageNumber);
             }
             
-            // Update prev/next buttons
-            const prevPageBtn = document.getElementById("prevPage");
-            const nextPageBtn = document.getElementById("nextPage");
-            
+            // Update prev/next buttons state
             if (prevPageBtn) {
                 prevPageBtn.disabled = currentPage === 1;
             }
             
             if (nextPageBtn) {
-                nextPageBtn.disabled = currentPage === totalPages;
+                nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
             }
         }
 
-        // Navigate pages
+        /**
+         * Navigate between pages
+         */
         function navigatePage(direction) {
             const totalPages = Math.ceil(filteredCars.length / carsPerPage);
             
-            if (direction === "prev" && currentPage > 1) {
+            if (direction === 'prev' && currentPage > 1) {
                 currentPage--;
-            } else if (direction === "next" && currentPage < totalPages) {
+            } else if (direction === 'next' && currentPage < totalPages) {
                 currentPage++;
             }
             

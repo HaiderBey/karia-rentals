@@ -57,7 +57,7 @@ function loadCars(filter = "all") {
 }
 
 // Card Creation Functions
-function createCarCard(car) {
+export function createCarCard(car) {
   const carCard = document.createElement("div")
   carCard.className = "car-card"
 
