@@ -1413,6 +1413,10 @@ footer {
   margin-right: 5px;
 }
 
+#change-vehicle-btn {
+  margin-left: 75%;
+}
+
 .form-container {
   max-width: 800px;
   margin: 0 auto;
