@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Karia - Réservation de Véhicule</title>
+    <link rel="icon" href="https://img.icons8.com/dusk/64/car-rental.png" type="image/x-icon" sizes="32x32">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script type="module" src="js/main.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1 onclick="window.location.href='index.html'">KARIA</h1>
+                </div>
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="voitures.html">Voitures</a></li>
+                    </ul>
+                </nav>
+                <div id="auth-section">
+                    <!-- When not logged in -->
+                    <div class="auth-buttons" id="guest-view">
+                        <button class="btn btn-login" onclick="window.location.href='signin.html?redirect=reservation.html'">Connexion / Inscription</button>
+                    </div>
+                    <!-- When logged in -->
+                    <div id="authenticated-view" style="display: none;">
+                        <div id="profile-dropdown">
+                            <img id="profile-icon" src="images/assets/profile.svg" alt="Profile">
+                            <div id="dropdown-menu">
+                                <button onclick="window.location.href='profile.html'">Profile</button>
+                                <button id="disconnect-button">Disconnect</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Title -->
+    <section class="page-title">
+        <div class="container">
+            <h1>Réservation de Véhicule</h1>
+            <p>Complétez les informations ci-dessous pour réserver votre véhicule</p>
+        </div>
+    </section>
+
+    <!-- Reservation Process -->
+    <section class="reservation-section">
+        <div class="container">
+            <!-- Authentication Check Message (shown when not logged in) -->
+            <div id="auth-required-message" style="display: none;">
+                <div class="auth-required-container">
+                    <h2>Connexion Requise</h2>
+                    <p>Veuillez vous connecter ou créer un compte pour continuer avec votre réservation.</p>
+                    <div class="auth-buttons-container">
+                        <button class="btn btn-primary" onclick="window.location.href='signin.html?redirect=reservation.html'">Se Connecter</button>
+                        <button class="btn btn-secondary" onclick="window.location.href='register.html?redirect=reservation.html'">Créer un Compte</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reservation Process Steps -->
+            <div id="reservation-process" style="display: none;">
+                <!-- Progress Indicator -->
+                <div class="reservation-progress">
+                    <div class="progress-step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Véhicule</div>
+                    </div>
+                    <div class="progress-connector"></div>
+                    <div class="progress-step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Dates & Lieux</div>
+                    </div>
+                    <div class="progress-connector"></div>
+                    <div class="progress-step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Options</div>
+                    </div>
+                    <div class="progress-connector"></div>
+                    <div class="progress-step" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Paiement</div>
+                    </div>
+                    <div class="progress-connector"></div>
+                    <div class="progress-step" data-step="5">
+                        <div class="step-number">5</div>
+                        <div class="step-label">Confirmation</div>
+                    </div>
+                </div>
+
+                <!-- Step 1: Vehicle Selection -->
+                <div class="reservation-step active" id="step-1">
+                    <h2>Sélection du Véhicule</h2>
+                    <div id="selected-vehicle-container">
+                        <!-- If no vehicle is pre-selected, show vehicle selection options -->
+                        <div id="no-vehicle-selected">
+                            <p>Aucun véhicule sélectionné. Veuillez choisir un véhicule:</p>
+                            <div class="vehicle-selection-grid" id="vehicle-selection-grid">
+                                <!-- Vehicles will be loaded here dynamically -->
+                            </div>
+                        </div>
+                        
+                        <!-- If a vehicle is pre-selected, show vehicle details -->
+                        <div id="vehicle-selected" style="display: none;">
+                            <div class="selected-vehicle-card">
+                                <div class="selected-vehicle-image">
+                                    <img id="selected-vehicle-img" src="/placeholder.svg" alt="Selected Vehicle">
+                                </div>
+                                <div class="selected-vehicle-details">
+                                    <h3 id="selected-vehicle-name"></h3>
+                                    <div class="vehicle-specs">
+                                        <div class="spec-item">
+                                            <span class="spec-label">Marque:</span>
+                                            <span id="selected-vehicle-brand" class="spec-value"></span>
+                                        </div>
+                                        <div class="spec-item">
+                                            <span class="spec-label">Année:</span>
+                                            <span id="selected-vehicle-year" class="spec-value"></span>
+                                        </div>
+                                        <div class="spec-item">
+                                            <span class="spec-label">Transmission:</span>
+                                            <span id="selected-vehicle-transmission" class="spec-value"></span>
+                                        </div>
+                                        <div class="spec-item">
+                                            <span class="spec-label">Carburant:</span>
+                                            <span id="selected-vehicle-fuel" class="spec-value"></span>
+                                        </div>
+                                        <div class="spec-item">
+                                            <span class="spec-label">Places:</span>
+                                            <span id="selected-vehicle-seats" class="spec-value"></span>
+                                        </div>
+                                    </div>
+                                    <div class="vehicle-price">
+                                        <span id="selected-vehicle-price"></span> <span>/ jour</span>
+                                    </div>
+                                    <button class="btn btn-secondary" id="change-vehicle-btn">Changer de Véhicule</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-navigation">
+                        <button class="btn btn-primary next-step" id="step1-next" disabled>Continuer</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Dates and Locations -->
+                <div class="reservation-step" id="step-2">
+                    <h2>Dates et Lieux</h2>
+                    <div class="form-container">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="pickup-date">Date de Prise en Charge</label>
+                                <input type="date" id="pickup-date" name="pickup-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="dropoff-date">Date de Retour</label>
+                                <input type="date" id="dropoff-date" name="dropoff-date" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="pickup-location">Lieu de Prise en Charge</label>
+                                <select id="pickup-location" name="pickup-location" required>
+                                    <option value="">Sélectionnez un lieu</option>
+                                    <option value="Tunis - Aéroport">Tunis - Aéroport</option>
+                                    <option value="Tunis - Centre-ville">Tunis - Centre-ville</option>
+                                    <option value="Hammamet">Hammamet</option>
+                                    <option value="Sousse">Sousse</option>
+                                    <option value="Monastir">Monastir</option>
+                                    <option value="Djerba">Djerba</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="dropoff-location">Lieu de Retour</label>
+                                <select id="dropoff-location" name="dropoff-location" required>
+                                    <option value="">Sélectionnez un lieu</option>
+                                    <option value="Tunis - Aéroport">Tunis - Aéroport</option>
+                                    <option value="Tunis - Centre-ville">Tunis - Centre-ville</option>
+                                    <option value="Hammamet">Hammamet</option>
+                                    <option value="Sousse">Sousse</option>
+                                    <option value="Monastir">Monastir</option>
+                                    <option value="Djerba">Djerba</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="same-location" name="same-location">
+                                <label for="same-location">Le lieu de retour est le même que le lieu de prise en charge</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-navigation">
+                        <button class="btn btn-secondary prev-step">Retour</button>
+                        <button class="btn btn-primary next-step" id="step2-next" disabled>Continuer</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Additional Options -->
+                <div class="reservation-step" id="step-3">
+                    <h2>Options Additionnelles</h2>
+                    <div class="options-container">
+                        <div class="option-card">
+                            <div class="option-header">
+                                <h3>Assurance Premium</h3>
+                                <div class="option-price">25.00 TND / jour</div>
+                            </div>
+                            <div class="option-description">
+                                <p>Couverture complète sans franchise en cas d'accident ou de dommages.</p>
+                            </div>
+                            <div class="option-selection">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="insurance-option" name="insurance-option" data-price="25" data-name="Assurance Premium">
+                                    <label for="insurance-option">Ajouter cette option</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="option-card">
+                            <div class="option-header">
+                                <h3>GPS</h3>
+                                <div class="option-price">10.00 TND / jour</div>
+                            </div>
+                            <div class="option-description">
+                                <p>Système de navigation GPS pour vous guider pendant votre voyage.</p>
+                            </div>
+                            <div class="option-selection">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="gps-option" name="gps-option" data-price="10" data-name="GPS">
+                                    <label for="gps-option">Ajouter cette option</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="option-card">
+                            <div class="option-header">
+                                <h3>Siège Enfant</h3>
+                                <div class="option-price">15.00 TND / jour</div>
+                            </div>
+                            <div class="option-description">
+                                <p>Siège auto pour enfant conforme aux normes de sécurité.</p>
+                            </div>
+                            <div class="option-selection">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="child-seat-option" name="child-seat-option" data-price="15" data-name="Siège Enfant">
+                                    <label for="child-seat-option">Ajouter cette option</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="option-card">
+                            <div class="option-header">
+                                <h3>Conducteur Additionnel</h3>
+                                <div class="option-price">20.00 TND / jour</div>
+                            </div>
+                            <div class="option-description">
+                                <p>Ajoutez un conducteur supplémentaire à votre contrat de location.</p>
+                            </div>
+                            <div class="option-selection">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="additional-driver-option" name="additional-driver-option" data-price="20" data-name="Conducteur Additionnel">
+                                    <label for="additional-driver-option">Ajouter cette option</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-navigation">
+                        <button class="btn btn-secondary prev-step">Retour</button>
+                        <button class="btn btn-primary next-step">Continuer</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Payment -->
+                <div class="reservation-step" id="step-4">
+                    <h2>Récapitulatif et Paiement</h2>
+                    <div class="summary-container">
+                        <div class="summary-section">
+                            <h3>Détails de la Réservation</h3>
+                            <div class="summary-item">
+                                <span class="summary-label">Véhicule:</span>
+                                <span id="summary-vehicle" class="summary-value"></span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Dates:</span>
+                                <span id="summary-dates" class="summary-value"></span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Durée:</span>
+                                <span id="summary-duration" class="summary-value"></span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Lieu de prise en charge:</span>
+                                <span id="summary-pickup" class="summary-value"></span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Lieu de retour:</span>
+                                <span id="summary-dropoff" class="summary-value"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-section">
+                            <h3>Options Sélectionnées</h3>
+                            <div id="summary-options">
+                                <div class="empty-options">Aucune option sélectionnée</div>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-section">
+                            <h3>Détails du Prix</h3>
+                            <div class="summary-item">
+                                <span class="summary-label">Prix du véhicule:</span>
+                                <span id="summary-vehicle-price" class="summary-value"></span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Options:</span>
+                                <span id="summary-options-price" class="summary-value"></span>
+                            </div>
+                            <div class="summary-item total">
+                                <span class="summary-label">Prix Total:</span>
+                                <span id="summary-total-price" class="summary-value"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-container">
+                        <h3>Méthode de Paiement</h3>
+                        <div class="payment-methods">
+                            <div class="payment-method">
+                                <input type="radio" id="payment-card" name="payment-method" value="credit_card" checked>
+                                <label for="payment-card">Carte de Crédit</label>
+                            </div>
+                            <div class="payment-method">
+                                <input type="radio" id="payment-paypal" name="payment-method" value="paypal">
+                                <label for="payment-paypal">PayPal</label>
+                            </div>
+                            <div class="payment-method">
+                                <input type="radio" id="payment-later" name="payment-method" value="pay_later">
+                                <label for="payment-later">Payer à la Prise en Charge</label>
+                            </div>
+                        </div>
+                        
+                        <div id="credit-card-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="card-number">Numéro de Carte</label>
+                                    <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="card-name">Nom sur la Carte</label>
+                                    <input type="text" id="card-name" name="card-name" placeholder="John Doe">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="card-expiry">Date d'Expiration</label>
+                                    <input type="text" id="card-expiry" name="card-expiry" placeholder="MM/YY">
+                                </div>
+                                <div class="form-group">
+                                    <label for="card-cvv">CVV</label>
+                                    <input type="text" id="card-cvv" name="card-cvv" placeholder="123">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-navigation">
+                        <button class="btn btn-secondary prev-step">Retour</button>
+                        <button class="btn btn-primary next-step" id="complete-reservation">Confirmer la Réservation</button>
+                    </div>
+                </div>
+
+                <!-- Step 5: Confirmation -->
+                <div class="reservation-step" id="step-5">
+                    <div class="confirmation-container">
+                        <div class="confirmation-icon">
+                            <img src="images/assets/check-circle.png" alt="Confirmation">
+                        </div>
+                        <h2>Réservation Confirmée!</h2>
+                        <p>Votre réservation a été confirmée avec succès. Un email de confirmation a été envoyé à votre adresse email.</p>
+                        
+                        <div class="confirmation-details">
+                            <div class="confirmation-item">
+                                <span class="confirmation-label">Numéro de Réservation:</span>
+                                <span id="confirmation-number" class="confirmation-value">RES-12345</span>
+                            </div>
+                            <div class="confirmation-item">
+                                <span class="confirmation-label">Véhicule:</span>
+                                <span id="confirmation-vehicle" class="confirmation-value"></span>
+                            </div>
+                            <div class="confirmation-item">
+                                <span class="confirmation-label">Dates:</span>
+                                <span id="confirmation-dates" class="confirmation-value"></span>
+                            </div>
+                            <div class="confirmation-item">
+                                <span class="confirmation-label">Lieu de prise en charge:</span>
+                                <span id="confirmation-pickup" class="confirmation-value"></span>
+                            </div>
+                            <div class="confirmation-item">
+                                <span class="confirmation-label">Prix Total:</span>
+                                <span id="confirmation-price" class="confirmation-value"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="confirmation-actions">
+                            <button class="btn btn-primary" onclick="window.location.href='profile.html'">Voir Mes Réservations</button>
+                            <button class="btn btn-secondary" onclick="window.location.href='index.html'">Retour à l'Accueil</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>KARIA</h2>
+                </div>
+                <div class="social-links">
+                    <a href="#"><img src="/frontend/images/assets/facebook.png" alt="facebook"></a>
+                    <a href="#"><img src="/frontend/images/assets/instagram.png" alt="instagram"></a>
+                    <a href="#"><img src="/frontend/images/assets/youtube.png" alt="youtube"></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Karia Location de Voitures. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="js/reservation.js"></script>
+</body>
+</html>

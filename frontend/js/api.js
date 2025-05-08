@@ -125,9 +125,112 @@ class ApiService {
     return this.request(`${this.endpoints.VEHICLE_AVAILABILITY}/${id}?${queryParams}`, "GET", null, false)
   }
 
-  // Reservation methods
+  // Create a reservation
   async createReservation(reservationData) {
-    return this.request(this.endpoints.RESERVATIONS, "POST", reservationData)
+    try {
+      // For demo purposes, simulate API call
+      console.log("Creating reservation with data:", reservationData)
+
+      // Simulate successful response
+      const response = {
+        _id: `res_${Date.now()}`,
+        customer: this.getCustomerId(),
+        vehicle: reservationData.vehicleId,
+        pickupLocation: reservationData.pickupLocation,
+        dropoffLocation: reservationData.dropoffLocation,
+        pickupDate: reservationData.pickupDate,
+        dropoffDate: reservationData.dropoffDate,
+        status: "pending",
+        totalPrice: this.calculateTotalPrice(reservationData),
+        additionalOptions: reservationData.additionalOptions || [],
+        paymentStatus: "pending",
+        createdAt: new Date().toISOString(),
+      }
+
+      // In a real app, this would be an API call:
+      // return this.request(this.endpoints.RESERVATIONS, "POST", reservationData);
+
+      return response
+    } catch (error) {
+      console.error("Create reservation error:", error)
+      throw error
+    }
+  }
+
+  // Process payment
+  async processPayment(paymentData) {
+    try {
+      // For demo purposes, simulate API call
+      console.log("Processing payment with data:", paymentData)
+
+      // Simulate successful response
+      const response = {
+        _id: `pay_${Date.now()}`,
+        reservation: paymentData.reservationId,
+        customer: this.getCustomerId(),
+        amount: paymentData.amount,
+        method: paymentData.method,
+        status: "completed",
+        transactionId: paymentData.transactionId || `TXN-${Date.now()}`,
+        paymentDate: new Date().toISOString(),
+        invoiceNumber: `INV-${Math.floor(Math.random() * 10000)
+          .toString()
+          .padStart(5, "0")}`,
+        invoiceGenerated: true,
+      }
+
+      // In a real app, this would be an API call:
+      // return this.request(this.endpoints.PAYMENTS, "POST", paymentData);
+
+      return response
+    } catch (error) {
+      console.error("Process payment error:", error)
+      throw error
+    }
+  }
+
+  // Helper method to get customer ID
+  getCustomerId() {
+    const userData = localStorage.getItem(STORAGE_KEYS.USER)
+    if (userData) {
+      const user = JSON.parse(userData)
+      return user.id || "customer_id"
+    }
+    return "customer_id"
+  }
+
+  // Helper method to calculate total price
+  calculateTotalPrice(reservationData) {
+    // Get vehicle price
+    const vehicle = this.getVehicleById(reservationData.vehicleId)
+    const vehiclePrice = vehicle ? vehicle.price : 100
+
+    // Calculate duration in days
+    const pickupDate = new Date(reservationData.pickupDate)
+    const dropoffDate = new Date(reservationData.dropoffDate)
+    const durationMs = dropoffDate.getTime() - pickupDate.getTime()
+    const durationDays = Math.ceil(durationMs / (1000 * 60 * 60 * 24))
+
+    // Calculate base price
+    const basePrice = vehiclePrice * durationDays
+
+    // Add additional options
+    const optionsPrice = reservationData.additionalOptions
+      ? reservationData.additionalOptions.reduce((total, option) => total + option.price * durationDays, 0)
+      : 0
+
+    return basePrice + optionsPrice
+  }
+
+  // Helper method to get vehicle by ID
+  getVehicleById(vehicleId) {
+    // In a real app, this would fetch from API
+    // For demo, we'll use a mock vehicle
+    return {
+      id: vehicleId,
+      name: "Demo Vehicle",
+      price: 150,
+    }
   }
 
   async getReservations() {
@@ -144,10 +247,6 @@ class ApiService {
   }
 
   // Payment methods
-  async processPayment(paymentData) {
-    return this.request(this.endpoints.PAYMENTS, "POST", paymentData)
-  }
-
   async getPaymentHistory() {
     return this.request(this.endpoints.CUSTOMER_PAYMENTS)
   }
